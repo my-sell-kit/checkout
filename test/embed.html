@@ -285,6 +285,28 @@
   font-weight: 500;
 }
 
+/* Seller avatar */
+.msk-seller-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: none;
+  flex-shrink: 0;
+}
+
+.msk-seller-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.msk-seller-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .msk-close-button {
   background: none;
   border: none;
@@ -352,6 +374,25 @@
 .msk-seller-name .msk-seller-value {
   color: #0570DE;
   font-weight: 500;
+}
+
+.msk-seller-name .msk-seller-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: none;
+  flex-shrink: 0;
+}
+
+.msk-seller-name.msk-has-avatar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.msk-expanded-seller.msk-has-avatar {
+  gap: 10px;
 }
 
 .msk-express-section {
@@ -504,6 +545,28 @@
   display: none;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+/* Secure payment indicator */
+.msk-secure-payment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #6b7280;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.msk-secure-payment svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.msk-secure-payment span {
+  white-space: nowrap;
+}
 </style>
 
 <div class="msk-payment-embed">
@@ -554,8 +617,11 @@
       <div class="msk-expanded-header">
         <div class="msk-expanded-header-left">
           <div class="msk-expanded-seller" id="msk-expanded-seller">
-            <span class="msk-paid-to" id="msk-paid-to-mobile"></span>
-            <span class="msk-seller-value" id="msk-seller-value-mobile"></span>
+            <img class="msk-seller-avatar" id="msk-seller-avatar-mobile" src="" alt="" />
+            <div class="msk-seller-info-text">
+              <span class="msk-paid-to" id="msk-paid-to-mobile"></span>
+              <span class="msk-seller-value" id="msk-seller-value-mobile"></span>
+            </div>
           </div>
         </div>
         <button class="msk-close-button" id="msk-close-button">×</button>
@@ -572,16 +638,26 @@
       <button class="msk-submit-button" id="msk-submit-expanded">
         <span id="msk-submit-text-expanded">Pay now</span>
       </button>
-      
+
+      <div class="msk-secure-payment" id="msk-secure-payment-expanded">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+        </svg>
+        <span id="msk-secure-text-expanded">Secure payment by Stripe</span>
+      </div>
+
       <div class="msk-payment-message" id="msk-message-expanded"></div>
     </div>
-    
+
     <!-- DESKTOP -->
     <div class="msk-desktop" id="msk-desktop">
       <div class="msk-payment-amount" id="msk-price-desktop"></div>
       <div class="msk-seller-name" id="msk-seller-desktop">
-        <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
-        <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
+        <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
+        <div class="msk-seller-info-text">
+          <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
+          <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
+        </div>
       </div>
       
       <div class="msk-express-section" id="msk-express-desktop">
@@ -603,7 +679,14 @@
       <button class="msk-submit-button" id="msk-submit-desktop">
         <span id="msk-submit-text-desktop">Pay now</span>
       </button>
-      
+
+      <div class="msk-secure-payment" id="msk-secure-payment-desktop">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+        </svg>
+        <span id="msk-secure-text-desktop">Secure payment by Stripe</span>
+      </div>
+
       <div class="msk-payment-message" id="msk-message-desktop"></div>
     </div>
     
@@ -638,7 +721,8 @@
       stripeNotReadyTitle: 'Payments not configured',
       stripeNotReadyMessage: "This seller hasn't finished setting up their payment account yet.",
       stripeNotReadySellerMessage: "You haven't finished setting up your payment account yet.",
-      goToSettings: 'Go to settings'
+      goToSettings: 'Go to settings',
+      securePayment: 'Secure payment by Stripe'
     },
     fr: {
       payWithCard: 'Payer par carte',
@@ -653,7 +737,8 @@
       stripeNotReadyTitle: 'Paiements non configurés',
       stripeNotReadyMessage: "Ce vendeur n'a pas encore finalisé la configuration de son compte de paiement.",
       stripeNotReadySellerMessage: "Vous n'avez pas encore finalisé la configuration de votre compte de paiement.",
-      goToSettings: 'Accéder aux paramètres'
+      goToSettings: 'Accéder aux paramètres',
+      securePayment: 'Paiement sécurisé par Stripe'
     },
     es: {
       payWithCard: 'Pagar con tarjeta',
@@ -668,7 +753,8 @@
       stripeNotReadyTitle: 'Pagos no configurados',
       stripeNotReadyMessage: 'Este vendedor aún no ha terminado de configurar su cuenta de pagos.',
       stripeNotReadySellerMessage: 'Aún no has terminado de configurar tu cuenta de pagos.',
-      goToSettings: 'Ir a configuración'
+      goToSettings: 'Ir a configuración',
+      securePayment: 'Pago seguro por Stripe'
     },
     de: {
       payWithCard: 'Mit Karte zahlen',
@@ -683,7 +769,8 @@
       stripeNotReadyTitle: 'Zahlungen nicht konfiguriert',
       stripeNotReadyMessage: 'Dieser Verkäufer hat die Einrichtung seines Zahlungskontos noch nicht abgeschlossen.',
       stripeNotReadySellerMessage: 'Sie haben die Einrichtung Ihres Zahlungskontos noch nicht abgeschlossen.',
-      goToSettings: 'Zu den Einstellungen'
+      goToSettings: 'Zu den Einstellungen',
+      securePayment: 'Sichere Zahlung über Stripe'
     },
     it: {
       payWithCard: 'Paga con carta',
@@ -698,7 +785,8 @@
       stripeNotReadyTitle: 'Pagamenti non configurati',
       stripeNotReadyMessage: 'Questo venditore non ha ancora completato la configurazione del suo account di pagamento.',
       stripeNotReadySellerMessage: 'Non hai ancora completato la configurazione del tuo account di pagamento.',
-      goToSettings: 'Vai alle impostazioni'
+      goToSettings: 'Vai alle impostazioni',
+      securePayment: 'Pagamento sicuro tramite Stripe'
     },
     pt: {
       payWithCard: 'Pagar com cartão',
@@ -713,7 +801,8 @@
       stripeNotReadyTitle: 'Pagamentos não configurados',
       stripeNotReadyMessage: 'Este vendedor ainda não terminou de configurar sua conta de pagamento.',
       stripeNotReadySellerMessage: 'Você ainda não terminou de configurar sua conta de pagamento.',
-      goToSettings: 'Ir para configurações'
+      goToSettings: 'Ir para configurações',
+      securePayment: 'Pagamento seguro por Stripe'
     },
     nl: {
       payWithCard: 'Betaal met kaart',
@@ -728,7 +817,8 @@
       stripeNotReadyTitle: 'Betalingen niet geconfigureerd',
       stripeNotReadyMessage: 'Deze verkoper heeft de configuratie van zijn betaalrekening nog niet voltooid.',
       stripeNotReadySellerMessage: 'U heeft de configuratie van uw betaalrekening nog niet voltooid.',
-      goToSettings: 'Ga naar instellingen'
+      goToSettings: 'Ga naar instellingen',
+      securePayment: 'Veilige betaling via Stripe'
     },
     ja: {
       payWithCard: 'カードで支払う',
@@ -743,7 +833,8 @@
       stripeNotReadyTitle: '支払いが設定されていません',
       stripeNotReadyMessage: 'この販売者はまだ支払いアカウントの設定を完了していません。',
       stripeNotReadySellerMessage: '支払いアカウントの設定がまだ完了していません。',
-      goToSettings: '設定へ移動'
+      goToSettings: '設定へ移動',
+      securePayment: 'Stripeによる安全な決済'
     }
   };
   
@@ -825,34 +916,62 @@
     // Stripe not ready translations
     const stripeNotReadyTitle = $('msk-stripe-not-ready-title');
     if (stripeNotReadyTitle) stripeNotReadyTitle.textContent = t.stripeNotReadyTitle;
-    
+
     const stripeNotReadyMessage = $('msk-stripe-not-ready-message');
     if (stripeNotReadyMessage) stripeNotReadyMessage.textContent = t.stripeNotReadyMessage;
-    
+
     const stripeNotReadyButtonText = $('msk-stripe-not-ready-button-text');
     if (stripeNotReadyButtonText) stripeNotReadyButtonText.textContent = t.goToSettings;
+
+    // Secure payment translations
+    const secureTextDesktop = $('msk-secure-text-desktop');
+    if (secureTextDesktop) secureTextDesktop.textContent = t.securePayment;
+
+    const secureTextExpanded = $('msk-secure-text-expanded');
+    if (secureTextExpanded) secureTextExpanded.textContent = t.securePayment;
   }
   
-  function updateSellerName(sellerName) {
+  function updateSellerName(sellerName, sellerAvatar) {
     // Desktop
     const paidToDesktop = $('msk-paid-to-desktop');
     const sellerValueDesktop = $('msk-seller-value-desktop');
     const sellerDesktop = $('msk-seller-desktop');
-    
+    const avatarDesktop = $('msk-seller-avatar-desktop');
+
     if (paidToDesktop && sellerValueDesktop && sellerDesktop && sellerName) {
       paidToDesktop.textContent = t.pay + ' ';
       sellerValueDesktop.textContent = sellerName;
-      sellerDesktop.style.display = 'block';
+
+      // Handle avatar
+      if (avatarDesktop && sellerAvatar) {
+        avatarDesktop.src = sellerAvatar;
+        avatarDesktop.style.display = 'block';
+        sellerDesktop.classList.add('msk-has-avatar');
+        sellerDesktop.style.display = 'flex';
+      } else {
+        if (avatarDesktop) avatarDesktop.style.display = 'none';
+        sellerDesktop.style.display = 'block';
+      }
     }
-    
+
     // Mobile expanded
     const paidToMobile = $('msk-paid-to-mobile');
     const sellerValueMobile = $('msk-seller-value-mobile');
     const sellerMobile = $('msk-expanded-seller');
-    
+    const avatarMobile = $('msk-seller-avatar-mobile');
+
     if (paidToMobile && sellerValueMobile && sellerMobile && sellerName) {
       paidToMobile.textContent = t.pay + ' ';
       sellerValueMobile.textContent = sellerName;
+
+      // Handle avatar
+      if (avatarMobile && sellerAvatar) {
+        avatarMobile.src = sellerAvatar;
+        avatarMobile.style.display = 'block';
+        sellerMobile.classList.add('msk-has-avatar');
+      } else {
+        if (avatarMobile) avatarMobile.style.display = 'none';
+      }
       sellerMobile.style.display = 'flex';
     } else if (sellerMobile && !sellerName) {
       sellerMobile.style.display = 'none';
@@ -1075,17 +1194,18 @@
     const amount = detail.amount || window.MySellKit?.amount || '';
     const priceBefore = detail.priceBefore || window.MySellKit?.priceBefore || '';
     const sellerName = detail.sellerName || window.MySellKit?.sellerName || '';
-    
+    const sellerAvatar = detail.sellerAvatar || window.MySellKit?.sellerAvatar || '';
+
     let priceHTML = `<span>${amount}</span>`;
     if (priceBefore) priceHTML += `<span class="msk-price-before">${priceBefore}</span>`;
-    
+
     const priceCompact = $('msk-price-compact');
     const priceDesktop = $('msk-price-desktop');
     if (priceCompact) priceCompact.innerHTML = priceHTML;
     if (priceDesktop) priceDesktop.innerHTML = priceHTML;
-    
-    // Update seller name with "Paid to" prefix
-    updateSellerName(sellerName);
+
+    // Update seller name with avatar and "Paid to" prefix
+    updateSellerName(sellerName, sellerAvatar);
     
     updateButtonText(amount);
     

@@ -61,6 +61,7 @@
     priceBefore: null,
     productName: null,
     sellerName: null,
+    sellerAvatar: null,
     stripeAccountReady: true,
     tracking: {
       scriptStartTime: performance.now(),
@@ -176,7 +177,8 @@
   window.MySellKit.markPurchaseComplete = markPurchaseComplete;
   
   function generatePurchaseToken() {
-    return 'pt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 12);
+    // Generate alphanumeric token without prefix or underscores
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 12);
   }
   
   async function getUserIP() {
@@ -305,6 +307,7 @@
     log.info('Amount:', data.response.amount, data.response.currency);
     log.info('Product:', data.response.product_name);
     log.info('Seller:', data.response.seller_name);
+    log.info('Seller Avatar:', data.response.seller_avatar || 'None');
     log.info('Stripe Account Ready:', data.response.stripe_account_ready);
     if (data.response.stripeAccount) {
       log.info('Connected Account:', data.response.stripeAccount);
@@ -317,8 +320,8 @@
   async function initializeStripe(paymentData) {
     log.group('Initialize Stripe');
     log.time('Stripe Init');
-    
-    const { clientSecret, amount, currency, price_before, product_name, seller_name, stripeAccount, stripe_account_ready } = paymentData;
+
+    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, stripe_account_ready } = paymentData;
     
     window.MySellKit.stripeAccountReady = stripe_account_ready !== false;
     
@@ -430,6 +433,7 @@
     window.MySellKit.priceBefore = price_before ? formatAmount(price_before, currency) : null;
     window.MySellKit.productName = product_name;
     window.MySellKit.sellerName = seller_name;
+    window.MySellKit.sellerAvatar = seller_avatar || null;
     
     log.timeEnd('Stripe Init');
     log.groupEnd();
@@ -441,7 +445,8 @@
         currency,
         priceBefore: window.MySellKit.priceBefore,
         productName: product_name,
-        sellerName: seller_name
+        sellerName: seller_name,
+        sellerAvatar: window.MySellKit.sellerAvatar
       }
     }));
   }
