@@ -259,12 +259,9 @@
     const pIndex = pathParts.indexOf('p');
     if (pIndex !== -1 && pathParts[pIndex + 1]) {
       const slug = pathParts[pIndex + 1];
-      // Extrait l'ID (enlève le préfixe test-)
-      const id = slug.replace(/^test-/, '');
-      if (/^[a-z0-9]{5,8}$/.test(id)) {
-        log.info('Product ID from URL:', id);
-        return id;
-      }
+      // En version test, on garde le slug complet (incluant test-)
+      log.info('Product ID from URL:', slug);
+      return slug;
     }
     log.warn('No valid product ID found in URL');
     return null;
