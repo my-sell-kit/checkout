@@ -98,7 +98,6 @@
     productName: null,
     sellerName: null,
     sellerAvatar: null,
-    stripeAccountReady: true,
     isTestMode: IS_TEST,
     tracking: {
       scriptStartTime: performance.now(),
@@ -349,23 +348,36 @@
     log.timeEnd('Checkout Session API');
     
     const data = await response.json();
-    if (!data.response || !data.response.clientSecret) {
+
+    if (!data.response) {
       log.error('Invalid API response:', data);
       log.groupEnd();
       throw new Error('Invalid API response');
     }
-    
+
+    // Check if payment is not configured (new error response structure)
+    if (data.response.error === 'payment_not_configured') {
+      log.warn('Payment not configured');
+      log.groupEnd();
+      return { error: 'payment_not_configured' };
+    }
+
+    if (!data.response.clientSecret) {
+      log.error('Missing clientSecret in response:', data);
+      log.groupEnd();
+      throw new Error('Invalid API response');
+    }
+
     log.success('Checkout session created');
     log.info('Amount:', data.response.amount, data.response.currency);
     log.info('Product:', data.response.product_name);
     log.info('Seller:', data.response.seller_name);
     log.info('Seller Avatar:', data.response.seller_avatar || 'None');
-    log.info('Stripe Account Ready:', data.response.stripe_account_ready);
     if (data.response.stripeAccount) {
       log.info('Connected Account:', data.response.stripeAccount);
     }
     log.groupEnd();
-    
+
     return data.response;
   }
   
@@ -374,26 +386,22 @@
     log.group('Initialize Stripe');
     log.time('Stripe Init');
 
-    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, stripe_account_ready } = paymentData;
-    
-    window.MySellKit.stripeAccountReady = stripe_account_ready !== false;
-    
-    if (stripe_account_ready === false) {
-      log.warn('Stripe account not ready, stopping checkout initialization');
+    // Handle payment not configured error
+    if (paymentData.error === 'payment_not_configured') {
+      log.warn('Payment not configured, stopping checkout initialization');
       log.timeEnd('Stripe Init');
       log.groupEnd();
-      
-      window.MySellKit.sellerName = seller_name;
-      
+
       window.dispatchEvent(new CustomEvent('mysellkit:stripe-not-ready', {
         detail: {
-          sellerName: seller_name,
           settingsUrl: CONFIG.SETTINGS_URL_BASE + window.MySellKit.productId
         }
       }));
       return;
     }
-    
+
+    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount } = paymentData;
+
     const stripeOptions = stripeAccount ? { stripeAccount } : {};
     log.info('Stripe options:', stripeOptions);
     
