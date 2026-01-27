@@ -27,7 +27,7 @@
     SESSION_STORAGE_PREFIX: 'msk_session_',
     SESSION_TIME_PREFIX: 'msk_session_time_',
     PURCHASE_FLAG_PREFIX: 'msk_purchase_done_',
-    SETTINGS_URL: 'https://app.mysellkit.com/signup?product=' + (typeof MSK_PRODUCT_SLUG !== 'undefined' ? MSK_PRODUCT_SLUG : '')
+    SETTINGS_URL_BASE: 'https://app.mysellkit.com/?v=settings&product='
   };
   
   const PAGE_LOAD_TIME = (function() {
@@ -335,7 +335,7 @@
       window.dispatchEvent(new CustomEvent('mysellkit:stripe-not-ready', {
         detail: {
           sellerName: seller_name,
-          settingsUrl: CONFIG.SETTINGS_URL
+          settingsUrl: CONFIG.SETTINGS_URL_BASE + window.MySellKit.productId
         }
       }));
       return;
