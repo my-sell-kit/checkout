@@ -357,10 +357,9 @@
 
     // Check if payment is not configured (new error response structure)
     if (data.response.error === 'payment_not_configured') {
-      log.warn('Payment not configured for this seller');
-      log.info('Seller:', data.response.seller_name);
+      log.warn('Payment not configured');
       log.groupEnd();
-      return { error: 'payment_not_configured', seller_name: data.response.seller_name };
+      return { error: 'payment_not_configured' };
     }
 
     if (!data.response.clientSecret) {
@@ -393,11 +392,8 @@
       log.timeEnd('Stripe Init');
       log.groupEnd();
 
-      window.MySellKit.sellerName = paymentData.seller_name;
-
       window.dispatchEvent(new CustomEvent('mysellkit:stripe-not-ready', {
         detail: {
-          sellerName: paymentData.seller_name,
           settingsUrl: CONFIG.SETTINGS_URL_BASE + window.MySellKit.productId
         }
       }));
