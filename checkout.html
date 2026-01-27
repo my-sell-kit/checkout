@@ -1232,9 +1232,9 @@
         link: 'auto',
         amazonPay: 'never',
         paypal: 'never',
-        klarna: 'never'
+        klarna: 'auto'
       },
-      layout: { maxColumns: 1, maxRows: 2 }
+      layout: { maxColumns: 1, maxRows: isMobile ? 1 : 2 }
     });
     
     // Always mount to desktop container
@@ -1245,9 +1245,10 @@
       availableExpressMethods = availablePaymentMethods || {};
       // Check ALL express payment methods
       hasExpressPaymentMethods = !!(
-        availableExpressMethods.applePay || 
-        availableExpressMethods.googlePay || 
-        availableExpressMethods.link
+        availableExpressMethods.applePay ||
+        availableExpressMethods.googlePay ||
+        availableExpressMethods.link ||
+        availableExpressMethods.klarna
       );
       
       log.info('Express Checkout ready');
