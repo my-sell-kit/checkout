@@ -960,10 +960,15 @@
     const expressEl = $('express-checkout-element');
     const mobileContainer = $('express-checkout-element-mobile');
     const desktopContainer = $('msk-express-desktop');
+    const expandedPanel = $('msk-mobile-expanded');
 
     if (!expressEl) return;
 
-    if (isMobile && isExpanded && mobileContainer) {
+    // Check if mobile expanded panel is visible or in preload state
+    const isMobileExpandedOrPreload = isMobile && expandedPanel &&
+      (isExpanded || expandedPanel.classList.contains('msk-preload'));
+
+    if (isMobileExpandedOrPreload && mobileContainer) {
       // Move to mobile expanded container
       if (expressEl.parentNode !== mobileContainer) {
         mobileContainer.appendChild(expressEl);
@@ -1241,7 +1246,10 @@
         if (expressMobileEl) expressMobileEl.classList.remove('msk-express-loading');
       }, 150);
 
-      // Update express section visibility (layout already set)
+      // Move express checkout to correct container based on current layout
+      moveExpressCheckout();
+
+      // Update express section visibility for desktop
       const express = $('msk-express-desktop');
       const separator = $('msk-separator-desktop');
 
@@ -1251,6 +1259,24 @@
       } else {
         if (express) express.style.display = 'none';
         if (separator) separator.style.display = 'none';
+      }
+
+      // Update express section visibility for mobile (if expanded or preload)
+      const expandedPanel = $('msk-mobile-expanded');
+      const isMobileExpandedOrPreload = isMobile && expandedPanel &&
+        (isExpanded || expandedPanel.classList.contains('msk-preload'));
+
+      if (isMobileExpandedOrPreload) {
+        const expressMobile = $('msk-express-section-mobile');
+        const separatorMobile = $('msk-separator-mobile');
+
+        if (hasExpressPaymentMethods) {
+          if (expressMobile) expressMobile.style.display = 'block';
+          if (separatorMobile) separatorMobile.style.display = 'flex';
+        } else {
+          if (expressMobile) expressMobile.style.display = 'none';
+          if (separatorMobile) separatorMobile.style.display = 'none';
+        }
       }
 
       // Notify B4Body that checkout is fully ready for tracking
