@@ -400,7 +400,7 @@
       return;
     }
 
-    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount } = paymentData;
+    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language } = paymentData;
 
     const stripeOptions = stripeAccount ? { stripeAccount } : {};
     log.info('Stripe options:', stripeOptions);
@@ -495,6 +495,7 @@
     window.MySellKit.productName = product_name;
     window.MySellKit.sellerName = seller_name;
     window.MySellKit.sellerAvatar = seller_avatar || null;
+    window.MySellKit.language = language || null;
     
     log.timeEnd('Stripe Init');
     log.groupEnd();
@@ -507,7 +508,8 @@
         priceBefore: window.MySellKit.priceBefore,
         productName: product_name,
         sellerName: seller_name,
-        sellerAvatar: window.MySellKit.sellerAvatar
+        sellerAvatar: window.MySellKit.sellerAvatar,
+        language: window.MySellKit.language
       }
     }));
   }
