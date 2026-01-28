@@ -919,10 +919,12 @@
     }
   }
   
-  let isTransitioning = false;
+  let expandedOpenedAt = 0;
 
   function setMobileCompact() {
-    if (!isMobile || isTransitioning) return;
+    if (!isMobile) return;
+    // Prevent closing within 300ms of opening (fixes first-click bug)
+    if (Date.now() - expandedOpenedAt < 300) return;
     isExpanded = false;
 
     const compact = $('msk-mobile-compact');
@@ -935,8 +937,8 @@
   }
 
   function setMobileExpanded() {
-    if (!isMobile || isTransitioning) return;
-    isTransitioning = true;
+    if (!isMobile) return;
+    expandedOpenedAt = Date.now();
     isExpanded = true;
 
     const compact = $('msk-mobile-compact');
@@ -968,11 +970,6 @@
       if (expressSection) expressSection.style.display = 'none';
       if (separatorMobile) separatorMobile.style.display = 'none';
     }
-
-    // Reset transition flag after a short delay
-    setTimeout(() => {
-      isTransitioning = false;
-    }, 100);
   }
   
   function setDesktopLayout() {
@@ -1070,9 +1067,17 @@
     
     const loading = $('msk-loading');
     const container = $('msk-container');
-    
+
+    // Show container immediately - Stripe has its own loading animations
     if (loading) loading.style.display = 'none';
-    if (!isMobile && container) container.style.display = 'block';
+    if (container) container.style.display = 'block';
+
+    // Set initial layout immediately
+    if (isMobile) {
+      setMobileCompact();
+    } else {
+      setDesktopLayout();
+    }
     
     const amount = detail.amount || window.MySellKit?.amount || '';
     const priceBefore = detail.priceBefore || window.MySellKit?.priceBefore || '';
@@ -1134,19 +1139,21 @@
         availableExpressMethods.link ||
         availableExpressMethods.klarna
       );
-      
+
       log.info('Express Checkout ready');
       log.info('Available methods:', JSON.stringify(availableExpressMethods));
       log.info('Has express methods:', hasExpressPaymentMethods);
-      
-      if (isMobile) {
-        const container = $('msk-container');
-        if (container) container.style.display = 'block';
-        setMobileCompact();
-        log.info('Layout: Mobile Compact');
+
+      // Update express section visibility (layout already set)
+      const express = $('msk-express-desktop');
+      const separator = $('msk-separator-desktop');
+
+      if (hasExpressPaymentMethods) {
+        if (express) express.style.display = 'block';
+        if (separator) separator.style.display = 'flex';
       } else {
-        setDesktopLayout();
-        log.info('Layout: Desktop');
+        if (express) express.style.display = 'none';
+        if (separator) separator.style.display = 'none';
       }
       
       // Notify B4Body that checkout is fully ready for tracking
