@@ -403,8 +403,12 @@
     const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language } = paymentData;
 
     const stripeOptions = stripeAccount ? { stripeAccount } : {};
+    // Add locale to Stripe options if language is provided
+    if (language) {
+      stripeOptions.locale = language;
+    }
     log.info('Stripe options:', stripeOptions);
-    
+
     window.MySellKit.stripe = Stripe(CONFIG.STRIPE_KEY, stripeOptions);
     log.success('Stripe.js initialized with key:', CONFIG.STRIPE_KEY.substring(0, 12) + '...');
     
