@@ -1,0 +1,371 @@
+/* ============================================
+   MYSELLKIT CONTENT - UNIFIED STYLES
+   ============================================ */
+
+/* CONTENT STYLES */
+.mysellkit-page-container {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mysellkit-content {
+  display: block;
+}
+
+.mysellkit-content:empty {
+  display: none;
+}
+
+.mysellkit-content h2,
+.mysellkit-section-title {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #000000;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.mysellkit-content h2:first-child {
+  margin-top: 0;
+}
+
+.mysellkit-content h2:empty {
+  display: none;
+}
+
+.mysellkit-content p {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.mysellkit-content p:last-child {
+  margin-bottom: 0;
+}
+
+.mysellkit-content p:empty {
+  display: none;
+}
+
+.mysellkit-content ul,
+.mysellkit-content ol {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.mysellkit-content ul li,
+.mysellkit-content ol li {
+  margin-bottom: 8px;
+}
+
+.mysellkit-content a {
+  color: #000000;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid #000000;
+}
+
+.mysellkit-content strong,
+.mysellkit-content b {
+  font-weight: 600;
+}
+
+.mysellkit-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.mysellkit-content hr {
+  border: none;
+  height: 1px;
+  background: #E5E5E5;
+  margin: 32px 0;
+}
+
+/* WHAT'S INCLUDED */
+.msk-whats-included-section {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.msk-whats-included-section:empty {
+  display: none;
+}
+
+.msk-files-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.msk-file-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 16px;
+  background: #F8F8F8;
+  border-radius: 16px;
+}
+
+.msk-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
+.msk-file-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msk-file-ext {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9CA3AF;
+  text-transform: uppercase;
+}
+
+.msk-file-icon {
+  flex-shrink: 0;
+  margin-left: 12px;
+  color: #9CA3AF;
+}
+
+/* REVIEWS */
+.msk-reviews-section {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.msk-reviews-section:empty {
+  display: none;
+}
+
+.msk-reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.msk-reviews-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #000000;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.msk-reviews-sort {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+}
+
+.msk-reviews-sort:hover {
+  background: #F8F8F8;
+}
+
+.msk-reviews-search {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.msk-reviews-search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.msk-reviews-search-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px 0 44px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: #000000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.msk-reviews-search-input::placeholder {
+  color: #9CA3AF;
+}
+
+.msk-reviews-search-input:focus {
+  border-color: #000000;
+}
+
+.msk-reviews-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.msk-reviews-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.msk-review-item {
+  padding: 20px 0;
+  border-bottom: 1px solid #F4F4F4;
+}
+
+.msk-review-item:last-child {
+  border-bottom: none;
+}
+
+.msk-review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.msk-review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #F0F0F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666666;
+  flex-shrink: 0;
+}
+
+.msk-review-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.msk-review-author-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.msk-review-author {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.msk-review-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: #ECFDF5;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #059669;
+}
+
+.msk-review-verified-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.msk-review-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.msk-review-stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.msk-review-star {
+  width: 12px;
+  height: 12px;
+}
+
+.msk-review-star-filled {
+  color: #000000;
+}
+
+.msk-review-star-empty {
+  color: #E5E5E5;
+}
+
+.msk-review-date {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #9CA3AF;
+}
+
+.msk-review-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #D1D5DB;
+}
+
+.msk-review-message {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+.msk-review-message:empty {
+  display: none;
+}
