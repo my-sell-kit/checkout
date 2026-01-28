@@ -48,9 +48,9 @@
       ? 'pk_test_51SC1AFBIipXO39gRV67hQNmil97MFHRfiW3y2RaaLH1EjPmcKVxuShDvThYysr5GpWROQxfdJT2EsARFU6aQ3fSv00W0KZXkvy'
       : 'pk_live_51SC1A2BiFovi3utDiJvoI9tDoCSGAgaLISxZdRjXaUfdEQeTCTKd9MfohJpFWzwVIXxVFerfZO6i6DYcJovcxejh00vQOqsY1p',
     
-    SETTINGS_URL_BASE: IS_TEST
-      ? 'https://app.mysellkit.com/version-test/?v=settings&product='
-      : 'https://app.mysellkit.com/?v=settings&product=',
+    SETTINGS_URL: IS_TEST
+      ? 'https://app.mysellkit.com/version-test/?v=settings'
+      : 'https://app.mysellkit.com/?v=settings',
     
     DOWNLOAD_URL: 'https://app.mysellkit.com/download',
     SESSION_DURATION: 14400000,
@@ -394,7 +394,7 @@
 
       window.dispatchEvent(new CustomEvent('mysellkit:stripe-not-ready', {
         detail: {
-          settingsUrl: CONFIG.SETTINGS_URL_BASE + window.MySellKit.productId
+          settingsUrl: CONFIG.SETTINGS_URL
         }
       }));
       return;
