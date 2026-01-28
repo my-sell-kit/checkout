@@ -169,8 +169,29 @@
   margin-bottom: 12px;
 }
 
+.msk-compact-seller {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.msk-compact-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: none;
+}
+
+.msk-compact-seller-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0570DE;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 .msk-compact-price {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   color: #1a1a1a;
   letter-spacing: -0.5px;
@@ -181,67 +202,31 @@
 }
 
 .msk-compact-price .msk-price-before {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #b0b0b0;
   text-decoration: line-through;
 }
 
-/* Pay with card button */
-.msk-pay-card-btn {
-  background: none;
-  border: none;
-  color: #0570DE;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 4px 0;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.msk-pay-card-btn:hover {
-  text-decoration: underline;
-}
-
-.msk-pay-card-btn svg {
-  width: 14px;
-  height: 14px;
-}
-
-.msk-express-compact {
-  display: none;
-}
-
-/* Mobile: Fixed height to show only 1 button, hide overflow (no "More" button) */
-#express-checkout-element-compact {
-  height: 54px;
-  overflow: hidden;
-}
-
-.msk-fallback-button {
-  display: none;
+.msk-compact-cta-button {
   width: 100%;
   height: 54px;
   background: #0570DE;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.msk-fallback-button:active {
+.msk-compact-cta-button:active {
   background: #0461c4;
   transform: scale(0.98);
 }
+
 
 /* ========== MOBILE EXPANDED ========== */
 .msk-mobile-expanded {
@@ -254,34 +239,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   padding-top: 0;
 }
 
-.msk-expanded-header-left {
-  flex: 1;
-  min-width: 0;
+.msk-express-section-mobile {
+  margin-bottom: 20px;
+  display: none;
 }
 
-/* Seller name with "Pay" prefix - mobile expanded */
-.msk-expanded-seller {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a1a1a;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.msk-expanded-seller .msk-paid-to {
-  color: #b0b0b0;
-  font-weight: 400;
-}
-
-.msk-expanded-seller .msk-seller-value {
-  color: #0570DE;
-  font-weight: 500;
+#express-checkout-element-mobile {
+  min-height: 54px;
 }
 
 /* Seller avatar */
@@ -292,12 +260,6 @@
   object-fit: cover;
   display: none;
   flex-shrink: 0;
-}
-
-.msk-seller-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .msk-seller-info-text {
@@ -390,10 +352,6 @@
   gap: 10px;
 }
 
-.msk-expanded-seller.msk-has-avatar {
-  gap: 10px;
-}
-
 .msk-express-section {
   margin-bottom: 20px;
   display: none;
@@ -423,6 +381,12 @@
 
 .msk-separator span {
   padding: 0 16px;
+}
+
+@media (max-width: 991px) {
+  .msk-separator {
+    margin: 20px 0 16px 0;
+  }
 }
 
 .msk-email-section {
@@ -504,6 +468,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.msk-btn-lock {
+  position: absolute;
+  right: 20px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
 }
 
 @media (max-width: 991px) {
@@ -545,27 +518,6 @@
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Secure payment indicator */
-.msk-secure-payment {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 12px;
-  font-size: 12px;
-  color: #6b7280;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.msk-secure-payment svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-
-.msk-secure-payment span {
-  white-space: nowrap;
-}
 </style>
 
 <div class="msk-payment-embed">
@@ -595,55 +547,44 @@
     <!-- MOBILE COMPACT -->
     <div class="msk-mobile-compact" id="msk-mobile-compact">
       <div class="msk-compact-header">
+        <div class="msk-compact-seller" id="msk-compact-seller">
+          <img class="msk-compact-avatar" id="msk-compact-avatar" src="" alt="" />
+          <span class="msk-compact-seller-name" id="msk-compact-seller-name"></span>
+        </div>
         <div class="msk-compact-price" id="msk-price-compact"></div>
-        <button class="msk-pay-card-btn" id="msk-pay-card-btn">
-          <span id="msk-pay-card-text">Pay with card</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-        </button>
       </div>
-      
-      <div class="msk-express-compact" id="msk-express-compact">
-        <div id="express-checkout-element-compact"></div>
-      </div>
-      
-      <button class="msk-fallback-button" id="msk-fallback-button">Continue to payment</button>
+      <button class="msk-compact-cta-button" id="msk-compact-cta-button">
+        <span id="msk-compact-cta-text">Get instant access</span>
+      </button>
     </div>
     
     <!-- MOBILE EXPANDED -->
     <div class="msk-mobile-expanded" id="msk-mobile-expanded">
       <div class="msk-expanded-header">
-        <div class="msk-expanded-header-left">
-          <div class="msk-expanded-seller" id="msk-expanded-seller">
-            <img class="msk-seller-avatar" id="msk-seller-avatar-mobile" src="" alt="" />
-            <div class="msk-seller-info-text">
-              <span class="msk-paid-to" id="msk-paid-to-mobile"></span>
-              <span class="msk-seller-value" id="msk-seller-value-mobile"></span>
-            </div>
-          </div>
-        </div>
+        <div></div>
         <button class="msk-close-button" id="msk-close-button">×</button>
       </div>
-      
+
+      <div class="msk-express-section-mobile" id="msk-express-section-mobile">
+        <div id="express-checkout-element-mobile"></div>
+      </div>
+
+      <div class="msk-separator" id="msk-separator-mobile"><span id="msk-separator-text-mobile">Or pay with card</span></div>
+
       <div class="msk-email-section" id="msk-email-section-expanded">
         <label class="msk-email-label" id="msk-email-label-expanded">Email</label>
         <input type="email" class="msk-email-input" id="msk-email-expanded" placeholder="your@email.com" autocomplete="email" />
         <div class="msk-email-error" id="msk-email-error-expanded"></div>
       </div>
-      
+
       <div id="payment-element-expanded"></div>
-      
+
       <button class="msk-submit-button" id="msk-submit-expanded">
         <span id="msk-submit-text-expanded">Pay now</span>
-      </button>
-
-      <div class="msk-secure-payment" id="msk-secure-payment-expanded">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <svg class="msk-btn-lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
         </svg>
-        <span id="msk-secure-text-expanded">Secure payment by Stripe</span>
-      </div>
+      </button>
 
       <div class="msk-payment-message" id="msk-message-expanded"></div>
     </div>
@@ -677,14 +618,10 @@
       
       <button class="msk-submit-button" id="msk-submit-desktop">
         <span id="msk-submit-text-desktop">Pay now</span>
-      </button>
-
-      <div class="msk-secure-payment" id="msk-secure-payment-desktop">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <svg class="msk-btn-lock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
         </svg>
-        <span id="msk-secure-text-desktop">Secure payment by Stripe</span>
-      </div>
+      </button>
 
       <div class="msk-payment-message" id="msk-message-desktop"></div>
     </div>
@@ -708,12 +645,10 @@
   // ========== TRANSLATIONS (8 languages + fallback EN) ==========
   const TRANSLATIONS = {
     en: {
-      payWithCard: 'Pay with card',
       orPayWithCard: 'Or pay with card',
       email: 'Email',
       payNow: 'Pay',
       processing: 'Processing...',
-      continueToPayment: 'Continue to payment',
       emailRequired: 'Enter your email to receive your files',
       emailInvalid: 'Please enter a valid email',
       pay: 'Pay',
@@ -721,15 +656,13 @@
       stripeNotReadyMessage: "This seller hasn't finished setting up their payment account yet.",
       stripeNotReadySellerMessage: "You haven't finished setting up your payment account yet.",
       goToSettings: 'Go to settings',
-      securePayment: 'Secure payment by Stripe'
+      ctaButton: 'Get instant access'
     },
     fr: {
-      payWithCard: 'Payer par carte',
       orPayWithCard: 'Ou payer par carte',
       email: 'Email',
       payNow: 'Payer',
       processing: 'Traitement...',
-      continueToPayment: 'Continuer',
       emailRequired: 'Entrez votre email pour recevoir vos fichiers',
       emailInvalid: 'Veuillez entrer un email valide',
       pay: 'Payer',
@@ -737,15 +670,13 @@
       stripeNotReadyMessage: "Ce vendeur n'a pas encore finalisé la configuration de son compte de paiement.",
       stripeNotReadySellerMessage: "Vous n'avez pas encore finalisé la configuration de votre compte de paiement.",
       goToSettings: 'Accéder aux paramètres',
-      securePayment: 'Paiement sécurisé par Stripe'
+      ctaButton: 'Obtenir maintenant'
     },
     es: {
-      payWithCard: 'Pagar con tarjeta',
       orPayWithCard: 'O pagar con tarjeta',
       email: 'Email',
       payNow: 'Pagar',
       processing: 'Procesando...',
-      continueToPayment: 'Continuar',
       emailRequired: 'Ingresa tu email para recibir tus archivos',
       emailInvalid: 'Ingresa un email válido',
       pay: 'Pagar',
@@ -753,15 +684,13 @@
       stripeNotReadyMessage: 'Este vendedor aún no ha terminado de configurar su cuenta de pagos.',
       stripeNotReadySellerMessage: 'Aún no has terminado de configurar tu cuenta de pagos.',
       goToSettings: 'Ir a configuración',
-      securePayment: 'Pago seguro por Stripe'
+      ctaButton: 'Obtener acceso'
     },
     de: {
-      payWithCard: 'Mit Karte zahlen',
       orPayWithCard: 'Oder mit Karte zahlen',
       email: 'E-Mail',
       payNow: 'Zahlen',
       processing: 'Verarbeitung...',
-      continueToPayment: 'Weiter',
       emailRequired: 'E-Mail eingeben um Dateien zu erhalten',
       emailInvalid: 'Bitte gültige E-Mail eingeben',
       pay: 'Zahlen',
@@ -769,15 +698,13 @@
       stripeNotReadyMessage: 'Dieser Verkäufer hat die Einrichtung seines Zahlungskontos noch nicht abgeschlossen.',
       stripeNotReadySellerMessage: 'Sie haben die Einrichtung Ihres Zahlungskontos noch nicht abgeschlossen.',
       goToSettings: 'Zu den Einstellungen',
-      securePayment: 'Sichere Zahlung über Stripe'
+      ctaButton: 'Sofort erhalten'
     },
     it: {
-      payWithCard: 'Paga con carta',
       orPayWithCard: 'Oppure paga con carta',
       email: 'Email',
       payNow: 'Paga',
       processing: 'Elaborazione...',
-      continueToPayment: 'Continua',
       emailRequired: 'Inserisci email per ricevere i file',
       emailInvalid: 'Inserisci un email valido',
       pay: 'Paga',
@@ -785,15 +712,13 @@
       stripeNotReadyMessage: 'Questo venditore non ha ancora completato la configurazione del suo account di pagamento.',
       stripeNotReadySellerMessage: 'Non hai ancora completato la configurazione del tuo account di pagamento.',
       goToSettings: 'Vai alle impostazioni',
-      securePayment: 'Pagamento sicuro tramite Stripe'
+      ctaButton: 'Ottieni accesso'
     },
     pt: {
-      payWithCard: 'Pagar com cartão',
       orPayWithCard: 'Ou pagar com cartão',
       email: 'Email',
       payNow: 'Pagar',
       processing: 'Processando...',
-      continueToPayment: 'Continuar',
       emailRequired: 'Digite seu email para receber os arquivos',
       emailInvalid: 'Digite um email válido',
       pay: 'Pagar',
@@ -801,15 +726,13 @@
       stripeNotReadyMessage: 'Este vendedor ainda não terminou de configurar sua conta de pagamento.',
       stripeNotReadySellerMessage: 'Você ainda não terminou de configurar sua conta de pagamento.',
       goToSettings: 'Ir para configurações',
-      securePayment: 'Pagamento seguro por Stripe'
+      ctaButton: 'Obter acesso'
     },
     nl: {
-      payWithCard: 'Betaal met kaart',
       orPayWithCard: 'Of betaal met kaart',
       email: 'E-mail',
       payNow: 'Betalen',
       processing: 'Verwerken...',
-      continueToPayment: 'Doorgaan',
       emailRequired: 'Voer e-mail in om bestanden te ontvangen',
       emailInvalid: 'Voer een geldig e-mailadres in',
       pay: 'Betaal',
@@ -817,15 +740,13 @@
       stripeNotReadyMessage: 'Deze verkoper heeft de configuratie van zijn betaalrekening nog niet voltooid.',
       stripeNotReadySellerMessage: 'U heeft de configuratie van uw betaalrekening nog niet voltooid.',
       goToSettings: 'Ga naar instellingen',
-      securePayment: 'Veilige betaling via Stripe'
+      ctaButton: 'Direct toegang'
     },
     ja: {
-      payWithCard: 'カードで支払う',
       orPayWithCard: 'またはカードで支払う',
       email: 'メール',
       payNow: '支払う',
       processing: '処理中...',
-      continueToPayment: '続ける',
       emailRequired: 'ファイル受取用メールを入力',
       emailInvalid: '有効なメールを入力',
       pay: '支払',
@@ -833,7 +754,7 @@
       stripeNotReadyMessage: 'この販売者はまだ支払いアカウントの設定を完了していません。',
       stripeNotReadySellerMessage: '支払いアカウントの設定がまだ完了していません。',
       goToSettings: '設定へ移動',
-      securePayment: 'Stripeによる安全な決済'
+      ctaButton: '今すぐ入手'
     }
   };
   
@@ -897,21 +818,21 @@
   }
   
   function applyTranslations() {
-    const payCardText = $('msk-pay-card-text');
-    if (payCardText) payCardText.textContent = t.payWithCard;
-    
     const separatorText = $('msk-separator-text');
     if (separatorText) separatorText.textContent = t.orPayWithCard;
-    
-    const fallbackBtn = $('msk-fallback-button');
-    if (fallbackBtn) fallbackBtn.textContent = t.continueToPayment;
-    
+
+    const separatorMobile = $('msk-separator-text-mobile');
+    if (separatorMobile) separatorMobile.textContent = t.orPayWithCard;
+
     const emailLabelDesktop = $('msk-email-label-desktop');
     if (emailLabelDesktop) emailLabelDesktop.textContent = t.email;
-    
+
     const emailLabelExpanded = $('msk-email-label-expanded');
     if (emailLabelExpanded) emailLabelExpanded.textContent = t.email;
-    
+
+    const ctaButton = $('msk-compact-cta-text');
+    if (ctaButton) ctaButton.textContent = t.ctaButton;
+
     // Stripe not ready translations
     const stripeNotReadyTitle = $('msk-stripe-not-ready-title');
     if (stripeNotReadyTitle) stripeNotReadyTitle.textContent = t.stripeNotReadyTitle;
@@ -921,13 +842,6 @@
 
     const stripeNotReadyButtonText = $('msk-stripe-not-ready-button-text');
     if (stripeNotReadyButtonText) stripeNotReadyButtonText.textContent = t.goToSettings;
-
-    // Secure payment translations
-    const secureTextDesktop = $('msk-secure-text-desktop');
-    if (secureTextDesktop) secureTextDesktop.textContent = t.securePayment;
-
-    const secureTextExpanded = $('msk-secure-text-expanded');
-    if (secureTextExpanded) secureTextExpanded.textContent = t.securePayment;
   }
   
   function updateSellerName(sellerName, sellerAvatar) {
@@ -953,27 +867,16 @@
       }
     }
 
-    // Mobile expanded
-    const paidToMobile = $('msk-paid-to-mobile');
-    const sellerValueMobile = $('msk-seller-value-mobile');
-    const sellerMobile = $('msk-expanded-seller');
-    const avatarMobile = $('msk-seller-avatar-mobile');
+    // Mobile compact
+    const avatarCompact = $('msk-compact-avatar');
+    const sellerNameCompact = $('msk-compact-seller-name');
 
-    if (paidToMobile && sellerValueMobile && sellerMobile && sellerName) {
-      paidToMobile.textContent = t.pay + ' ';
-      sellerValueMobile.textContent = sellerName;
-
-      // Handle avatar
-      if (avatarMobile && sellerAvatar) {
-        avatarMobile.src = sellerAvatar;
-        avatarMobile.style.display = 'block';
-        sellerMobile.classList.add('msk-has-avatar');
-      } else {
-        if (avatarMobile) avatarMobile.style.display = 'none';
+    if (avatarCompact && sellerNameCompact && sellerName) {
+      sellerNameCompact.textContent = sellerName;
+      if (sellerAvatar) {
+        avatarCompact.src = sellerAvatar;
+        avatarCompact.style.display = 'block';
       }
-      sellerMobile.style.display = 'flex';
-    } else if (sellerMobile && !sellerName) {
-      sellerMobile.style.display = 'none';
     }
   }
   
@@ -994,127 +897,100 @@
     log.info('Showing Stripe not ready state');
   }
   
-  // Move Express Checkout element between mobile and desktop containers
+  // Move Express Checkout element between mobile expanded and desktop containers
   function moveExpressCheckout() {
     const expressEl = $('express-checkout-element');
-    const mobileContainer = $('express-checkout-element-compact');
+    const mobileContainer = $('express-checkout-element-mobile');
     const desktopContainer = $('msk-express-desktop');
-    
+
     if (!expressEl) return;
-    
-    if (isMobile && mobileContainer) {
-      // Move to mobile container
+
+    if (isMobile && isExpanded && mobileContainer) {
+      // Move to mobile expanded container
       if (expressEl.parentNode !== mobileContainer) {
         mobileContainer.appendChild(expressEl);
       }
-    } else if (desktopContainer) {
-      // Move back to desktop container (default position)
-      const desktopExpressWrapper = desktopContainer;
-      if (expressEl.parentNode !== desktopExpressWrapper) {
-        // Check if it's the first child or needs to be placed correctly
-        if (desktopExpressWrapper.firstChild !== expressEl) {
-          desktopExpressWrapper.insertBefore(expressEl, desktopExpressWrapper.firstChild);
-        }
+    } else if (!isMobile && desktopContainer) {
+      // Move back to desktop container
+      const wrapper = desktopContainer;
+      if (expressEl.parentNode !== wrapper) {
+        wrapper.insertBefore(expressEl, wrapper.firstChild);
       }
-    }
-  }
-  
-  function updateMobileCompactState() {
-    if (!isMobile || !expressReady) return;
-    
-    const expressCompact = $('msk-express-compact');
-    const fallback = $('msk-fallback-button');
-    const payCardBtn = $('msk-pay-card-btn');
-    
-    // Re-check available methods to be safe
-    const hasExpress = !!(
-      availableExpressMethods.applePay || 
-      availableExpressMethods.googlePay || 
-      availableExpressMethods.link
-    );
-    
-    if (hasExpress) {
-      if (expressCompact) expressCompact.style.display = 'block';
-      if (fallback) fallback.style.display = 'none';
-      if (payCardBtn) payCardBtn.style.display = 'flex';
-    } else {
-      // No express methods available - show fallback button
-      if (expressCompact) expressCompact.style.display = 'none';
-      if (fallback) fallback.style.display = 'flex';
-      if (payCardBtn) payCardBtn.style.display = 'none';
-      log.info('No express methods available, showing fallback button');
     }
   }
   
   function setMobileCompact() {
     if (!isMobile) return;
     isExpanded = false;
-    
+
     const compact = $('msk-mobile-compact');
     const expanded = $('msk-mobile-expanded');
     const desktop = $('msk-desktop');
-    
+
     if (compact) compact.style.display = 'block';
     if (expanded) expanded.style.display = 'none';
     if (desktop) desktop.style.display = 'none';
-    
-    // Move express checkout to mobile
-    moveExpressCheckout();
-    
-    if (!expressReady) {
-      const expressCompact = $('msk-express-compact');
-      const fallback = $('msk-fallback-button');
-      const payCardBtn = $('msk-pay-card-btn');
-      if (expressCompact) expressCompact.style.display = 'none';
-      if (fallback) fallback.style.display = 'none';
-      if (payCardBtn) payCardBtn.style.display = 'none';
-      return;
-    }
-    
-    updateMobileCompactState();
   }
   
   function setMobileExpanded() {
     if (!isMobile) return;
-    
     isExpanded = true;
-    
+
     const compact = $('msk-mobile-compact');
     const expanded = $('msk-mobile-expanded');
     const desktop = $('msk-desktop');
-    
+
     if (compact) compact.style.display = 'none';
     if (expanded) expanded.style.display = 'block';
     if (desktop) desktop.style.display = 'none';
-    
+
+    // Move payment element to expanded container
     const paymentEl = $('payment-element');
     const expandedContainer = $('payment-element-expanded');
     if (paymentEl && expandedContainer && paymentEl.parentNode !== expandedContainer) {
       expandedContainer.appendChild(paymentEl);
     }
+
+    // Move express checkout element to mobile expanded container
+    moveExpressCheckout();
+
+    // Show/hide express section based on availability
+    const expressSection = $('msk-express-section-mobile');
+    const separatorMobile = $('msk-separator-mobile');
+
+    if (hasExpressPaymentMethods && expressReady) {
+      if (expressSection) expressSection.style.display = 'block';
+      if (separatorMobile) separatorMobile.style.display = 'flex';
+    } else {
+      if (expressSection) expressSection.style.display = 'none';
+      if (separatorMobile) separatorMobile.style.display = 'none';
+    }
   }
   
   function setDesktopLayout() {
+    isExpanded = false;
+
     const compact = $('msk-mobile-compact');
     const expanded = $('msk-mobile-expanded');
     const desktop = $('msk-desktop');
-    
+
     if (compact) compact.style.display = 'none';
     if (expanded) expanded.style.display = 'none';
     if (desktop) desktop.style.display = 'block';
-    
+
     // Move express checkout back to desktop
     moveExpressCheckout();
-    
+
+    // Move payment element back to desktop
     const paymentEl = $('payment-element');
     const desktopPaymentContainer = $('payment-element-desktop-wrapper');
     if (paymentEl && desktopPaymentContainer && paymentEl.parentNode !== desktopPaymentContainer) {
       desktopPaymentContainer.appendChild(paymentEl);
     }
-    
+
     const express = $('msk-express-desktop');
     const separator = $('msk-separator-desktop');
-    
+
     if (hasExpressPaymentMethods && expressReady) {
       if (express) express.style.display = 'block';
       if (separator) separator.style.display = 'flex';
@@ -1298,20 +1174,13 @@
     });
     
     // Event listeners
-    const payCardBtn = $('msk-pay-card-btn');
-    if (payCardBtn) {
-      payCardBtn.addEventListener('click', () => {
+    const ctaBtn = $('msk-compact-cta-button');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', () => {
         setMobileExpanded();
       });
     }
-    
-    const fallback = $('msk-fallback-button');
-    if (fallback) {
-      fallback.addEventListener('click', () => {
-        setMobileExpanded();
-      });
-    }
-    
+
     const closeBtn = $('msk-close-button');
     if (closeBtn) closeBtn.addEventListener('click', () => setMobileCompact());
     
