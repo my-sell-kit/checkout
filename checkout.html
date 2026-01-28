@@ -186,7 +186,7 @@
 .msk-compact-seller-name {
   font-size: 15px;
   font-weight: 500;
-  color: #0570DE;
+  color: #1a1a1a;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -919,8 +919,10 @@
     }
   }
   
+  let isTransitioning = false;
+
   function setMobileCompact() {
-    if (!isMobile) return;
+    if (!isMobile || isTransitioning) return;
     isExpanded = false;
 
     const compact = $('msk-mobile-compact');
@@ -931,9 +933,10 @@
     if (expanded) expanded.style.display = 'none';
     if (desktop) desktop.style.display = 'none';
   }
-  
+
   function setMobileExpanded() {
-    if (!isMobile) return;
+    if (!isMobile || isTransitioning) return;
+    isTransitioning = true;
     isExpanded = true;
 
     const compact = $('msk-mobile-compact');
@@ -965,6 +968,11 @@
       if (expressSection) expressSection.style.display = 'none';
       if (separatorMobile) separatorMobile.style.display = 'none';
     }
+
+    // Reset transition flag after a short delay
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 100);
   }
   
   function setDesktopLayout() {
@@ -1176,13 +1184,21 @@
     // Event listeners
     const ctaBtn = $('msk-compact-cta-button');
     if (ctaBtn) {
-      ctaBtn.addEventListener('click', () => {
+      ctaBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         setMobileExpanded();
       });
     }
 
     const closeBtn = $('msk-close-button');
-    if (closeBtn) closeBtn.addEventListener('click', () => setMobileCompact());
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setMobileCompact();
+      });
+    }
     
     const submitDesktop = $('msk-submit-desktop');
     if (submitDesktop) submitDesktop.addEventListener('click', (e) => { e.preventDefault(); handleSubmit('msk-email-desktop', 'msk-message-desktop'); });
