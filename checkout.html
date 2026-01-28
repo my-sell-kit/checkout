@@ -1332,7 +1332,7 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       const newMobile = window.innerWidth < 992;
-      if (newMobile !== isMobile && expressReady) {
+      if (newMobile !== isMobile) {
         isMobile = newMobile;
         if (newMobile) {
           setMobileCompact();
@@ -1347,6 +1347,18 @@
           const expandedContainer = $('payment-element-expanded');
           if (paymentEl && expandedContainer && paymentEl.parentNode !== expandedContainer) {
             expandedContainer.appendChild(paymentEl);
+          }
+          // Move express checkout to mobile container
+          moveExpressCheckout();
+          // Update express section visibility for mobile
+          const expressSection = $('msk-express-section-mobile');
+          const separatorMobile = $('msk-separator-mobile');
+          if (hasExpressPaymentMethods && expressReady) {
+            if (expressSection) expressSection.style.display = 'block';
+            if (separatorMobile) separatorMobile.style.display = 'flex';
+          } else {
+            if (expressSection) expressSection.style.display = 'none';
+            if (separatorMobile) separatorMobile.style.display = 'none';
           }
         } else {
           setDesktopLayout();
