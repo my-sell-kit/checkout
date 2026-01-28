@@ -802,9 +802,20 @@
     const lang = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
     return TRANSLATIONS[lang] ? lang : 'en';
   }
-  
-  const currentLang = detectLanguage();
-  const t = TRANSLATIONS[currentLang];
+
+  function setLanguage(lang) {
+    const normalizedLang = (lang || '').split('-')[0].toLowerCase();
+    if (TRANSLATIONS[normalizedLang]) {
+      currentLang = normalizedLang;
+      t = TRANSLATIONS[currentLang];
+      applyTranslations();
+      return true;
+    }
+    return false;
+  }
+
+  let currentLang = detectLanguage();
+  let t = TRANSLATIONS[currentLang];
   
   // State
   let isMobile = window.innerWidth < 992;
@@ -1116,7 +1127,12 @@
   
   window.addEventListener('mysellkit:ready', function(e) {
     const detail = e.detail || {};
-    
+
+    // Set language from API if provided (e.g., "fr", "en", "es")
+    if (detail.language) {
+      setLanguage(detail.language);
+    }
+
     const loading = $('msk-loading');
     const container = $('msk-container');
 
