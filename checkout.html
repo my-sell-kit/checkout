@@ -163,31 +163,7 @@
 }
 
 .msk-compact-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 12px;
-}
-
-.msk-compact-seller {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.msk-compact-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: none;
-}
-
-.msk-compact-seller-name {
-  font-size: 15px;
-  font-weight: 500;
-  color: #1a1a1a;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .msk-compact-price {
@@ -256,6 +232,42 @@
   align-items: center;
   margin-bottom: 16px;
   padding-top: 0;
+}
+
+.msk-expanded-seller {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.msk-expanded-seller.msk-visible {
+  display: flex;
+}
+
+.msk-expanded-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.msk-expanded-seller-text {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-size: 14px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.msk-expanded-paid-to {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.msk-expanded-seller-name {
+  color: #0570DE;
+  font-weight: 500;
 }
 
 .msk-express-section-mobile {
@@ -439,7 +451,6 @@
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.07);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   background-color: #ffffff;
@@ -448,13 +459,13 @@
 }
 
 .msk-email-input::placeholder {
-  color: #6b7280;
+  color: #9ca3af;
   font-weight: 400;
 }
 
 .msk-email-input:focus {
   border-color: #0570de;
-  box-shadow: 0 0 0 1px #0570de, 0 1px 1px 0 rgba(0, 0, 0, 0.07), 0 0 0 4px rgba(5, 112, 222, 0.1);
+  box-shadow: 0 0 0 1px #0570de, 0 0 0 4px rgba(5, 112, 222, 0.1);
 }
 
 .msk-email-input.msk-error {
@@ -574,21 +585,23 @@
     <!-- MOBILE COMPACT -->
     <div class="msk-mobile-compact" id="msk-mobile-compact">
       <div class="msk-compact-header">
-        <div class="msk-compact-seller" id="msk-compact-seller">
-          <img class="msk-compact-avatar" id="msk-compact-avatar" src="" alt="" />
-          <span class="msk-compact-seller-name" id="msk-compact-seller-name"></span>
-        </div>
         <div class="msk-compact-price" id="msk-price-compact"></div>
       </div>
       <button class="msk-compact-cta-button" id="msk-compact-cta-button">
         <span id="msk-compact-cta-text">Get instant access</span>
       </button>
     </div>
-    
+
     <!-- MOBILE EXPANDED -->
     <div class="msk-mobile-expanded msk-hidden" id="msk-mobile-expanded">
       <div class="msk-expanded-header">
-        <div></div>
+        <div class="msk-expanded-seller" id="msk-expanded-seller">
+          <img class="msk-expanded-avatar" id="msk-expanded-avatar" src="" alt="" />
+          <div class="msk-expanded-seller-text">
+            <span class="msk-expanded-paid-to" id="msk-expanded-paid-to"></span>
+            <span class="msk-expanded-seller-name" id="msk-expanded-seller-name"></span>
+          </div>
+        </div>
         <button class="msk-close-button" id="msk-close-button">×</button>
       </div>
 
@@ -894,15 +907,22 @@
       }
     }
 
-    // Mobile compact
-    const avatarCompact = $('msk-compact-avatar');
-    const sellerNameCompact = $('msk-compact-seller-name');
+    // Mobile expanded header
+    const expandedSeller = $('msk-expanded-seller');
+    const expandedAvatar = $('msk-expanded-avatar');
+    const expandedPaidTo = $('msk-expanded-paid-to');
+    const expandedSellerName = $('msk-expanded-seller-name');
 
-    if (avatarCompact && sellerNameCompact && sellerName) {
-      sellerNameCompact.textContent = sellerName;
-      if (sellerAvatar) {
-        avatarCompact.src = sellerAvatar;
-        avatarCompact.style.display = 'block';
+    if (expandedSeller && expandedPaidTo && expandedSellerName && sellerName) {
+      expandedPaidTo.textContent = t.pay + ' ';
+      expandedSellerName.textContent = sellerName;
+
+      if (expandedAvatar && sellerAvatar) {
+        expandedAvatar.src = sellerAvatar;
+        expandedSeller.classList.add('msk-visible');
+      } else {
+        if (expandedAvatar) expandedAvatar.style.display = 'none';
+        expandedSeller.classList.add('msk-visible');
       }
     }
   }
