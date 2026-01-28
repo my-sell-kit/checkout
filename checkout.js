@@ -476,15 +476,9 @@
       }
     ];
     
-    const elementsOptions = { appearance, fonts, loader: 'auto' };
-    // Add locale to elements options if language is provided
-    if (language) {
-      elementsOptions.locale = language;
-    }
-
     window.MySellKit.checkout = await window.MySellKit.stripe.initCheckout({
       clientSecret,
-      elementsOptions
+      elementsOptions: { appearance, fonts, loader: 'auto' }
     });
     log.success('Checkout initialized');
     
