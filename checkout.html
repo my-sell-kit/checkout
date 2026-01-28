@@ -230,9 +230,21 @@
 
 /* ========== MOBILE EXPANDED ========== */
 .msk-mobile-expanded {
-  display: none;
   padding-top: 6px;
   padding-bottom: 6px;
+}
+
+/* Preload state: render off-screen so Stripe elements load */
+.msk-mobile-expanded.msk-preload {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hidden state */
+.msk-mobile-expanded.msk-hidden {
+  display: none;
 }
 
 .msk-expanded-header {
@@ -481,6 +493,7 @@
 
 @media (max-width: 991px) {
   .msk-submit-button {
+    height: 54px;
     font-weight: 600;
   }
 }
@@ -559,7 +572,7 @@
     </div>
     
     <!-- MOBILE EXPANDED -->
-    <div class="msk-mobile-expanded" id="msk-mobile-expanded">
+    <div class="msk-mobile-expanded msk-hidden" id="msk-mobile-expanded">
       <div class="msk-expanded-header">
         <div></div>
         <button class="msk-close-button" id="msk-close-button">×</button>
@@ -932,7 +945,10 @@
     const desktop = $('msk-desktop');
 
     if (compact) compact.style.display = 'block';
-    if (expanded) expanded.style.display = 'none';
+    if (expanded) {
+      expanded.classList.remove('msk-preload');
+      expanded.classList.add('msk-hidden');
+    }
     if (desktop) desktop.style.display = 'none';
   }
 
@@ -946,7 +962,9 @@
     const desktop = $('msk-desktop');
 
     if (compact) compact.style.display = 'none';
-    if (expanded) expanded.style.display = 'block';
+    if (expanded) {
+      expanded.classList.remove('msk-hidden', 'msk-preload');
+    }
     if (desktop) desktop.style.display = 'none';
 
     // Move payment element to expanded container
@@ -1075,6 +1093,12 @@
     // Set initial layout immediately
     if (isMobile) {
       setMobileCompact();
+      // Preload expanded panel (off-screen) so Stripe elements load smoothly
+      const expanded = $('msk-mobile-expanded');
+      if (expanded) {
+        expanded.classList.remove('msk-hidden');
+        expanded.classList.add('msk-preload');
+      }
     } else {
       setDesktopLayout();
     }
@@ -1108,7 +1132,16 @@
     });
     
     paymentElement.mount('#payment-element');
-    
+
+    // On mobile, move payment element to expanded container for preloading
+    if (isMobile) {
+      const paymentEl = $('payment-element');
+      const expandedContainer = $('payment-element-expanded');
+      if (paymentEl && expandedContainer) {
+        expandedContainer.appendChild(paymentEl);
+      }
+    }
+
     // Express Checkout Element - Apple Pay + Google Pay + Link
     // Always mount to desktop container first, then move via JS/CSS
     expressCheckout = checkout.createExpressCheckoutElement({
