@@ -956,20 +956,17 @@
   }
   
   // Move Express Checkout element between mobile expanded and desktop containers
+  // Note: Only move to mobile when panel is truly visible (isExpanded), not in preload state
+  // because Stripe cannot calculate dimensions when container has visibility:hidden
   function moveExpressCheckout() {
     const expressEl = $('express-checkout-element');
     const mobileContainer = $('express-checkout-element-mobile');
     const desktopContainer = $('msk-express-desktop');
-    const expandedPanel = $('msk-mobile-expanded');
 
     if (!expressEl) return;
 
-    // Check if mobile expanded panel is visible or in preload state
-    const isMobileExpandedOrPreload = isMobile && expandedPanel &&
-      (isExpanded || expandedPanel.classList.contains('msk-preload'));
-
-    if (isMobileExpandedOrPreload && mobileContainer) {
-      // Move to mobile expanded container
+    if (isMobile && isExpanded && mobileContainer) {
+      // Move to mobile expanded container (only when truly visible)
       if (expressEl.parentNode !== mobileContainer) {
         mobileContainer.appendChild(expressEl);
       }
@@ -1247,6 +1244,7 @@
       }, 150);
 
       // Move express checkout to correct container based on current layout
+      // (only moves to mobile if panel is truly expanded, not in preload)
       moveExpressCheckout();
 
       // Update express section visibility for desktop
@@ -1261,12 +1259,8 @@
         if (separator) separator.style.display = 'none';
       }
 
-      // Update express section visibility for mobile (if expanded or preload)
-      const expandedPanel = $('msk-mobile-expanded');
-      const isMobileExpandedOrPreload = isMobile && expandedPanel &&
-        (isExpanded || expandedPanel.classList.contains('msk-preload'));
-
-      if (isMobileExpandedOrPreload) {
+      // Update express section visibility for mobile (only if truly expanded)
+      if (isMobile && isExpanded) {
         const expressMobile = $('msk-express-section-mobile');
         const separatorMobile = $('msk-separator-mobile');
 
@@ -1369,22 +1363,12 @@
             expanded.classList.add('msk-preload');
           }
           // Move payment element to expanded container for preloading
+          // Note: Express Checkout stays in desktop container until panel is truly opened
+          // because Stripe cannot calculate dimensions when container has visibility:hidden
           const paymentEl = $('payment-element');
           const expandedContainer = $('payment-element-expanded');
           if (paymentEl && expandedContainer && paymentEl.parentNode !== expandedContainer) {
             expandedContainer.appendChild(paymentEl);
-          }
-          // Move express checkout to mobile container
-          moveExpressCheckout();
-          // Update express section visibility for mobile
-          const expressSection = $('msk-express-section-mobile');
-          const separatorMobile = $('msk-separator-mobile');
-          if (hasExpressPaymentMethods && expressReady) {
-            if (expressSection) expressSection.style.display = 'block';
-            if (separatorMobile) separatorMobile.style.display = 'flex';
-          } else {
-            if (expressSection) expressSection.style.display = 'none';
-            if (separatorMobile) separatorMobile.style.display = 'none';
           }
         } else {
           setDesktopLayout();
