@@ -250,25 +250,22 @@
 .msk-files-grid {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 8px;
 }
 
 .msk-file-block {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 0;
-  border-bottom: 1px solid #ebebeb;
-}
-
-.msk-file-block:last-child {
-  border-bottom: none;
+  padding: 14px 16px;
+  background: #f7f7f7;
+  border-radius: 14px;
 }
 
 .msk-file-icon-wrapper {
-  width: 40px;
-  height: 40px;
-  background: #f7f7f7;
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -277,8 +274,8 @@
 }
 
 .msk-file-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   color: #1a1a1a;
 }
 
@@ -312,7 +309,7 @@
 
 /* REVIEWS */
 .msk-reviews-section {
-  margin-top: 40px;
+  margin-top: 48px;
   width: 100%;
 }
 
@@ -333,7 +330,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 22px;
   font-weight: 600;
-  color: #000000;
+  color: #1a1a1a;
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -348,19 +345,19 @@
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
+  background: #f7f7f7;
+  border: none;
   border-radius: 20px;
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: #000000;
+  color: #1a1a1a;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .msk-reviews-sort:hover {
-  background: #F8F8F8;
+  background: #efefef;
 }
 
 .msk-reviews-sort svg {
@@ -379,9 +376,9 @@
   right: 0;
   min-width: 160px;
   background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ebebeb;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
@@ -397,60 +394,57 @@
 }
 
 .msk-sort-option {
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: #000000;
+  color: #1a1a1a;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .msk-sort-option:hover {
-  background: #F8F8F8;
+  background: #f7f7f7;
 }
 
 .msk-sort-option-active {
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 
 .msk-sort-option-active:hover {
-  background: #E8E8E8;
+  background: #e8e8e8;
 }
 
 .msk-reviews-list {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .msk-review-item {
-  padding: 20px 0;
-  border-bottom: 1px solid #F4F4F4;
-}
-
-.msk-review-item:last-child {
-  border-bottom: none;
+  padding: 16px;
+  background: #f7f7f7;
+  border-radius: 14px;
 }
 
 .msk-review-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 8px;
 }
 
 .msk-review-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #F0F0F0;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #666666;
+  color: #1a1a1a;
   flex-shrink: 0;
 }
 
@@ -472,7 +466,7 @@
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   font-weight: 600;
-  color: #000000;
+  color: #1a1a1a;
   margin: 0;
 }
 
@@ -480,8 +474,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
-  background: #ECFDF5;
+  padding: 3px 8px;
+  background: #ffffff;
   border-radius: 10px;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
@@ -512,32 +506,32 @@
 }
 
 .msk-review-star-filled {
-  color: #000000;
+  color: #1a1a1a;
 }
 
 .msk-review-star-empty {
-  color: #E5E5E5;
+  color: #d1d1d1;
 }
 
 .msk-review-date {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: #9CA3AF;
+  color: #717171;
 }
 
 .msk-review-dot {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #D1D5DB;
+  background: #d1d1d1;
 }
 
 .msk-review-message {
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: #000000;
-  line-height: 1.6;
+  color: #484848;
+  line-height: 1.55;
   margin-top: 12px;
 }
 
