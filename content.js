@@ -111,10 +111,13 @@
         return false;
       }
       
-      // Set language if provided
+      // Set language if provided, otherwise auto-detect
       if (config.language && TRANSLATIONS[config.language]) {
         currentLang = config.language;
         t = TRANSLATIONS[currentLang];
+        log.info('Using language:', currentLang);
+      } else {
+        log.info('Auto-detected language:', currentLang);
       }
       
       // Build structure
@@ -124,18 +127,17 @@
       var whatsIncludedEl = document.getElementById('msk-whats-included');
       var reviewsEl = document.getElementById('msk-reviews');
       
-      // HTML Content - NOW HANDLES BOTH BASE64 AND DIRECT HTML
+      // HTML Content - handles both base64 and direct HTML
       if (contentEl && isValidValue(config.htmlContent)) {
         log.info('Processing HTML content');
         contentEl.innerHTML = smartDecodeHtml(config.htmlContent);
       }
       
-      // What's Included
+      // What's Included - uses translation automatically
       if (whatsIncludedEl && isValidValue(config.filesList)) {
         var files = config.filesList.split('|||').filter(function(f) { return f.trim(); });
         if (files.length > 0) {
           log.info('Building What\'s Included with', files.length, 'files');
-          var title = isValidValue(config.whatsIncludedTitle) ? config.whatsIncludedTitle : t.whatsIncluded;
           var filesHtml = files.map(function(file) {
             var fileName = file.trim();
             var lastDot = fileName.lastIndexOf('.');
@@ -143,11 +145,11 @@
             var ext = lastDot > 0 ? fileName.substring(lastDot + 1).toUpperCase() : '';
             return '<div class="msk-file-block"><div class="msk-file-icon-wrapper"><svg class="msk-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div></div>';
           }).join('');
-          whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + title + '</h2><div class="msk-files-grid">' + filesHtml + '</div>';
+          whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + t.whatsIncluded + '</h2><div class="msk-files-grid">' + filesHtml + '</div>';
         }
       }
       
-      // Reviews
+      // Reviews - uses translations automatically
       if (reviewsEl && isValidValue(config.reviewsList)) {
         var reviews = config.reviewsList.split('|||').filter(function(r) { return r.trim(); }).map(function(reviewStr) {
           var parts = reviewStr.split('::');
@@ -156,8 +158,6 @@
 
         if (reviews.length > 0) {
           log.info('Building Reviews with', reviews.length, 'reviews');
-          var reviewsTitle = isValidValue(config.reviewsTitle) ? config.reviewsTitle : t.reviews;
-          var verifiedLabel = isValidValue(config.reviewsVerifiedLabel) ? config.reviewsVerifiedLabel : t.verified;
 
           // Store original reviews for sorting
           var originalReviews = reviews.slice();
@@ -166,7 +166,7 @@
             var initials = getInitials(review.name);
             var relativeDate = formatRelativeDate(review.date);
             var starsHtml = generateStars(review.rating);
-            var verifiedBadge = review.verified ? '<span class="msk-review-verified"><svg class="msk-review-verified-icon" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6 6-2.69 6-6S9.31 0 6 0zm-.75 9L2.5 6.25l1.06-1.06 1.69 1.69 3.69-3.69L10 4.25 5.25 9z"/></svg>' + verifiedLabel + '</span>' : '';
+            var verifiedBadge = review.verified ? '<span class="msk-review-verified"><svg class="msk-review-verified-icon" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6 6-2.69 6-6S9.31 0 6 0zm-.75 9L2.5 6.25l1.06-1.06 1.69 1.69 3.69-3.69L10 4.25 5.25 9z"/></svg>' + t.verified + '</span>' : '';
             var messageHtml = review.message ? '<p class="msk-review-message">' + review.message + '</p>' : '';
             return '<div class="msk-review-item" data-review-index="' + index + '" data-rating="' + review.rating + '" data-date="' + review.date + '"><div class="msk-review-header"><div class="msk-review-avatar">' + initials + '</div><div class="msk-review-author-info"><div class="msk-review-author-row"><span class="msk-review-author">' + review.name + '</span>' + verifiedBadge + '</div><div class="msk-review-meta"><div class="msk-review-stars">' + starsHtml + '</div>' + (relativeDate ? '<span class="msk-review-dot"></span><span class="msk-review-date">' + relativeDate + '</span>' : '') + '</div></div></div>' + messageHtml + '</div>';
           }
@@ -193,7 +193,7 @@
             }).join('') +
             '</div></div>';
 
-          reviewsEl.innerHTML = '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviews.length + ' ' + reviewsTitle + '</h2>' + sortDropdownHtml + '</div><div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
+          reviewsEl.innerHTML = '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviews.length + ' ' + t.reviews + '</h2>' + sortDropdownHtml + '</div><div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
 
           // Sort functionality
           setTimeout(function() {
