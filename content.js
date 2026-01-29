@@ -119,7 +119,7 @@
             var lastDot = fileName.lastIndexOf('.');
             var name = lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
             var ext = lastDot > 0 ? fileName.substring(lastDot + 1).toUpperCase() : '';
-            return '<div class="msk-file-block"><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div><svg class="msk-file-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></div>';
+            return '<div class="msk-file-block"><div class="msk-file-icon-wrapper"><svg class="msk-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div></div>';
           }).join('');
           whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + title + '</h2><div class="msk-files-grid">' + filesHtml + '</div>';
         }
