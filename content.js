@@ -12,14 +12,14 @@
   
   // ========== TRANSLATIONS ==========
   var TRANSLATIONS = {
-    en: { whatsIncluded: "What's included", reviews: "reviews", searchReviews: "Search all reviews", mostRecent: "Most recent", verified: "Verified" },
-    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", searchReviews: "Rechercher dans les avis", mostRecent: "Plus récents", verified: "Vérifié" },
-    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", searchReviews: "Buscar reseñas", mostRecent: "Más recientes", verified: "Verificado" },
-    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", searchReviews: "Bewertungen durchsuchen", mostRecent: "Neueste", verified: "Verifiziert" },
-    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", searchReviews: "Cerca recensioni", mostRecent: "Più recenti", verified: "Verificato" },
-    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", searchReviews: "Pesquisar avaliações", mostRecent: "Mais recentes", verified: "Verificado" },
-    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", searchReviews: "Zoek beoordelingen", mostRecent: "Meest recent", verified: "Geverifieerd" },
-    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", searchReviews: "レビューを検索", mostRecent: "最新", verified: "認証済み" }
+    en: { whatsIncluded: "What's included", reviews: "reviews", mostRecent: "Most recent", highestRated: "Highest rated", lowestRated: "Lowest rated", verified: "Verified" },
+    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", mostRecent: "Plus récents", highestRated: "Meilleures notes", lowestRated: "Moins bonnes notes", verified: "Vérifié" },
+    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", mostRecent: "Más recientes", highestRated: "Mejor valorados", lowestRated: "Peor valorados", verified: "Verificado" },
+    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", mostRecent: "Neueste", highestRated: "Beste Bewertung", lowestRated: "Schlechteste Bewertung", verified: "Verifiziert" },
+    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", mostRecent: "Più recenti", highestRated: "Voto più alto", lowestRated: "Voto più basso", verified: "Verificato" },
+    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", mostRecent: "Mais recentes", highestRated: "Melhor avaliados", lowestRated: "Pior avaliados", verified: "Verificado" },
+    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", mostRecent: "Meest recent", highestRated: "Hoogst beoordeeld", lowestRated: "Laagst beoordeeld", verified: "Geverifieerd" },
+    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", mostRecent: "最新", highestRated: "高評価順", lowestRated: "低評価順", verified: "認証済み" }
   };
   
   function detectLanguage() {
@@ -131,35 +131,100 @@
           var parts = reviewStr.split('::');
           return { name: (parts[0] || '').trim(), date: (parts[1] || '').trim(), rating: parseInt(parts[2]) || 5, message: (parts[3] || '').trim(), verified: (parts[4] || '').trim().toLowerCase() === 'yes' };
         }).filter(function(r) { return r.name && r.name !== 'null' && r.name !== 'undefined'; });
-        
+
         if (reviews.length > 0) {
           log.info('Building Reviews with', reviews.length, 'reviews');
           var reviewsTitle = isValidValue(config.reviewsTitle) ? config.reviewsTitle : t.reviews;
-          var searchPlaceholder = isValidValue(config.reviewsSearchPlaceholder) ? config.reviewsSearchPlaceholder : t.searchReviews;
-          var sortLabel = isValidValue(config.reviewsSortLabel) ? config.reviewsSortLabel : t.mostRecent;
           var verifiedLabel = isValidValue(config.reviewsVerifiedLabel) ? config.reviewsVerifiedLabel : t.verified;
-          
-          var reviewsHtml = reviews.map(function(review, index) {
+
+          // Store original reviews for sorting
+          var originalReviews = reviews.slice();
+
+          function buildReviewHtml(review, index) {
             var initials = getInitials(review.name);
             var relativeDate = formatRelativeDate(review.date);
             var starsHtml = generateStars(review.rating);
             var verifiedBadge = review.verified ? '<span class="msk-review-verified"><svg class="msk-review-verified-icon" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6 6-2.69 6-6S9.31 0 6 0zm-.75 9L2.5 6.25l1.06-1.06 1.69 1.69 3.69-3.69L10 4.25 5.25 9z"/></svg>' + verifiedLabel + '</span>' : '';
             var messageHtml = review.message ? '<p class="msk-review-message">' + review.message + '</p>' : '';
-            return '<div class="msk-review-item" data-review-index="' + index + '"><div class="msk-review-header"><div class="msk-review-avatar">' + initials + '</div><div class="msk-review-author-info"><div class="msk-review-author-row"><span class="msk-review-author">' + review.name + '</span>' + verifiedBadge + '</div><div class="msk-review-meta"><div class="msk-review-stars">' + starsHtml + '</div>' + (relativeDate ? '<span class="msk-review-dot"></span><span class="msk-review-date">' + relativeDate + '</span>' : '') + '</div></div></div>' + messageHtml + '</div>';
+            return '<div class="msk-review-item" data-review-index="' + index + '" data-rating="' + review.rating + '" data-date="' + review.date + '"><div class="msk-review-header"><div class="msk-review-avatar">' + initials + '</div><div class="msk-review-author-info"><div class="msk-review-author-row"><span class="msk-review-author">' + review.name + '</span>' + verifiedBadge + '</div><div class="msk-review-meta"><div class="msk-review-stars">' + starsHtml + '</div>' + (relativeDate ? '<span class="msk-review-dot"></span><span class="msk-review-date">' + relativeDate + '</span>' : '') + '</div></div></div>' + messageHtml + '</div>';
+          }
+
+          var reviewsHtml = reviews.map(function(review, index) {
+            return buildReviewHtml(review, index);
           }).join('');
-          
-          reviewsEl.innerHTML = '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviews.length + ' ' + reviewsTitle + '</h2><button class="msk-reviews-sort">' + sortLabel + '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg></button></div><div class="msk-reviews-search"><div class="msk-reviews-search-wrapper"><svg class="msk-reviews-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" class="msk-reviews-search-input" placeholder="' + searchPlaceholder + '" id="msk-reviews-search-input"></div></div><div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
-          
-          // Search functionality
+
+          // Build sort dropdown
+          var sortOptions = [
+            { value: 'recent', label: t.mostRecent },
+            { value: 'highest', label: t.highestRated },
+            { value: 'lowest', label: t.lowestRated }
+          ];
+
+          var sortDropdownHtml = '<div class="msk-reviews-sort-container">' +
+            '<button class="msk-reviews-sort" id="msk-reviews-sort-btn">' +
+            '<span id="msk-sort-label">' + t.mostRecent + '</span>' +
+            '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3 3-3"/></svg>' +
+            '</button>' +
+            '<div class="msk-reviews-sort-dropdown" id="msk-reviews-sort-dropdown">' +
+            sortOptions.map(function(opt) {
+              return '<div class="msk-sort-option' + (opt.value === 'recent' ? ' msk-sort-option-active' : '') + '" data-sort="' + opt.value + '">' + opt.label + '</div>';
+            }).join('') +
+            '</div></div>';
+
+          reviewsEl.innerHTML = '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviews.length + ' ' + reviewsTitle + '</h2>' + sortDropdownHtml + '</div><div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
+
+          // Sort functionality
           setTimeout(function() {
-            var searchInput = document.getElementById('msk-reviews-search-input');
+            var sortBtn = document.getElementById('msk-reviews-sort-btn');
+            var sortDropdown = document.getElementById('msk-reviews-sort-dropdown');
+            var sortLabel = document.getElementById('msk-sort-label');
             var reviewsListEl = document.getElementById('msk-reviews-list');
-            if (searchInput && reviewsListEl) {
-              searchInput.addEventListener('input', function(e) {
-                var query = e.target.value.toLowerCase().trim();
-                var items = reviewsListEl.querySelectorAll('.msk-review-item');
-                items.forEach(function(item) { 
-                  item.style.display = (!query || item.textContent.toLowerCase().indexOf(query) !== -1) ? 'block' : 'none'; 
+
+            if (sortBtn && sortDropdown && reviewsListEl) {
+              // Toggle dropdown
+              sortBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sortDropdown.classList.toggle('msk-sort-dropdown-open');
+              });
+
+              // Close on outside click
+              document.addEventListener('click', function() {
+                sortDropdown.classList.remove('msk-sort-dropdown-open');
+              });
+
+              // Sort options click
+              var sortOptionEls = sortDropdown.querySelectorAll('.msk-sort-option');
+              sortOptionEls.forEach(function(optEl) {
+                optEl.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  var sortType = this.getAttribute('data-sort');
+                  var sortedReviews = originalReviews.slice();
+
+                  // Update active state
+                  sortOptionEls.forEach(function(el) { el.classList.remove('msk-sort-option-active'); });
+                  this.classList.add('msk-sort-option-active');
+
+                  // Sort reviews
+                  if (sortType === 'highest') {
+                    sortedReviews.sort(function(a, b) { return b.rating - a.rating; });
+                    sortLabel.textContent = t.highestRated;
+                  } else if (sortType === 'lowest') {
+                    sortedReviews.sort(function(a, b) { return a.rating - b.rating; });
+                    sortLabel.textContent = t.lowestRated;
+                  } else {
+                    // Most recent (original order, assuming reviews are already sorted by date)
+                    sortLabel.textContent = t.mostRecent;
+                  }
+
+                  // Re-render reviews
+                  reviewsListEl.innerHTML = sortedReviews.map(function(review, index) {
+                    return buildReviewHtml(review, index);
+                  }).join('');
+
+                  // Close dropdown
+                  sortDropdown.classList.remove('msk-sort-dropdown-open');
+
+                  log.info('Reviews sorted by:', sortType);
                 });
               });
             }
