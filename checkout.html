@@ -414,31 +414,22 @@
   }
 }
 
-/* Desktop header - seller left, price right */
-.msk-desktop-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
 .msk-payment-amount {
-  font-size: 32px;
-  font-weight: 600;
+  font-size: 38px;
+  font-weight: 500;
   color: #1a1a1a;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
   line-height: 1.2;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  margin-bottom: 0;
-  flex-shrink: 0;
+  margin-bottom: 28px;
 }
 
 .msk-price-before {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
   color: #b0b0b0;
   text-decoration: line-through;
@@ -449,7 +440,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
-  margin-bottom: 0;
+  margin-bottom: 16px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: none;
 }
@@ -749,16 +740,14 @@
 
     <!-- DESKTOP -->
     <div class="msk-desktop" id="msk-desktop">
-      <div class="msk-desktop-header">
-        <div class="msk-seller-name" id="msk-seller-desktop">
-          <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
-          <div class="msk-seller-info-text">
-            <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
-            <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
-          </div>
+      <div class="msk-seller-name" id="msk-seller-desktop">
+        <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
+        <div class="msk-seller-info-text">
+          <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
+          <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
         </div>
-        <div class="msk-payment-amount" id="msk-price-desktop"></div>
       </div>
+      <div class="msk-payment-amount" id="msk-price-desktop"></div>
 
       <div class="msk-express-section" id="msk-express-desktop">
         <div id="express-checkout-element"></div>
