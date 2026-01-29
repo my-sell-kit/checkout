@@ -31,14 +31,36 @@
   var t = TRANSLATIONS[currentLang];
   
   // ========== HELPER FUNCTIONS ==========
-  function decodeBase64Html(base64Str) {
+  
+  /**
+   * Smart HTML decoder - handles both base64 (Webflow) and direct HTML (Bubble)
+   */
+  function smartDecodeHtml(content) {
+    if (!content) return '';
+    
+    var trimmed = content.trim();
+    
+    // If it looks like HTML, use it directly
+    if (trimmed.indexOf('<') === 0 || trimmed.indexOf('<') > -1) {
+      log.info('Detected direct HTML content');
+      return trimmed;
+    }
+    
+    // Otherwise, try base64 decoding
     try {
-      var binaryString = atob(base64Str);
+      log.info('Attempting base64 decode');
+      var binaryString = atob(trimmed);
       var bytes = new Uint8Array(binaryString.length);
       for (var i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
       return new TextDecoder('utf-8').decode(bytes);
     } catch (e) {
-      try { return atob(base64Str); } catch (e2) { return ''; }
+      log.warn('Base64 decode failed, trying simple atob');
+      try { 
+        return atob(trimmed); 
+      } catch (e2) { 
+        log.warn('All decoding failed, returning original');
+        return trimmed;
+      }
     }
   }
   
@@ -102,10 +124,10 @@
       var whatsIncludedEl = document.getElementById('msk-whats-included');
       var reviewsEl = document.getElementById('msk-reviews');
       
-      // HTML Content
+      // HTML Content - NOW HANDLES BOTH BASE64 AND DIRECT HTML
       if (contentEl && isValidValue(config.htmlContent)) {
-        log.info('Injecting HTML content');
-        contentEl.innerHTML = decodeBase64Html(config.htmlContent);
+        log.info('Processing HTML content');
+        contentEl.innerHTML = smartDecodeHtml(config.htmlContent);
       }
       
       // What's Included
