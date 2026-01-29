@@ -373,6 +373,8 @@
     log.info('Product:', data.response.product_name);
     log.info('Seller:', data.response.seller_name);
     log.info('Seller Avatar:', data.response.seller_avatar || 'None');
+    log.info('Reviews Count:', data.response.reviews_count || 0);
+    log.info('Reviews Average:', data.response.reviews_average || 0);
     if (data.response.stripeAccount) {
       log.info('Connected Account:', data.response.stripeAccount);
     }
@@ -400,7 +402,7 @@
       return;
     }
 
-    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language } = paymentData;
+    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language, reviews_count, reviews_average } = paymentData;
 
     const stripeOptions = stripeAccount ? { stripeAccount } : {};
     // Add locale to Stripe options if language is provided
@@ -500,6 +502,8 @@
     window.MySellKit.sellerName = seller_name;
     window.MySellKit.sellerAvatar = seller_avatar || null;
     window.MySellKit.language = language || null;
+    window.MySellKit.reviewsCount = reviews_count || 0;
+    window.MySellKit.reviewsAverage = reviews_average || 0;
     
     log.timeEnd('Stripe Init');
     log.groupEnd();
@@ -513,7 +517,9 @@
         productName: product_name,
         sellerName: seller_name,
         sellerAvatar: window.MySellKit.sellerAvatar,
-        language: window.MySellKit.language
+        language: window.MySellKit.language,
+        reviewsCount: window.MySellKit.reviewsCount,
+        reviewsAverage: window.MySellKit.reviewsAverage
       }
     }));
   }
