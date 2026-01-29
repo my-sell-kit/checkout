@@ -414,22 +414,31 @@
   }
 }
 
-.msk-payment-amount {
-  font-size: 38px;
-  font-weight: 500;
-  color: #1a1a1a;
-  letter-spacing: -1px;
+/* Desktop header - seller left, price right */
+.msk-desktop-header {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
-  line-height: 1.2;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 28px;
 }
 
+.msk-payment-amount {
+  font-size: 32px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  line-height: 1.2;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
 .msk-price-before {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   color: #b0b0b0;
   text-decoration: line-through;
@@ -440,7 +449,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: none;
 }
@@ -740,14 +749,16 @@
 
     <!-- DESKTOP -->
     <div class="msk-desktop" id="msk-desktop">
-      <div class="msk-seller-name" id="msk-seller-desktop">
-        <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
-        <div class="msk-seller-info-text">
-          <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
-          <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
+      <div class="msk-desktop-header">
+        <div class="msk-seller-name" id="msk-seller-desktop">
+          <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
+          <div class="msk-seller-info-text">
+            <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
+            <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
+          </div>
         </div>
+        <div class="msk-payment-amount" id="msk-price-desktop"></div>
       </div>
-      <div class="msk-payment-amount" id="msk-price-desktop"></div>
 
       <div class="msk-express-section" id="msk-express-desktop">
         <div id="express-checkout-element"></div>
