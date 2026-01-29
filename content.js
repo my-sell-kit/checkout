@@ -130,7 +130,7 @@
         var reviews = config.reviewsList.split('|||').filter(function(r) { return r.trim(); }).map(function(reviewStr) {
           var parts = reviewStr.split('::');
           return { name: (parts[0] || '').trim(), date: (parts[1] || '').trim(), rating: parseInt(parts[2]) || 5, message: (parts[3] || '').trim(), verified: (parts[4] || '').trim().toLowerCase() === 'yes' };
-        }).filter(function(r) { return r.name; });
+        }).filter(function(r) { return r.name && r.name !== 'null' && r.name !== 'undefined'; });
         
         if (reviews.length > 0) {
           log.info('Building Reviews with', reviews.length, 'reviews');

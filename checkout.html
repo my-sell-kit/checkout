@@ -163,7 +163,98 @@
 }
 
 .msk-compact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 12px;
+}
+
+.msk-compact-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.msk-compact-right {
+  flex-shrink: 0;
+}
+
+/* Compact seller info (when no reviews) */
+.msk-compact-seller {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.msk-compact-seller.msk-visible {
+  display: flex;
+}
+
+.msk-compact-seller-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.msk-compact-seller-name {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Social proof (when reviews exist) - Airbnb style */
+.msk-compact-social-proof {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 10px;
+  background: #F7F7F7;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.msk-compact-social-proof:hover {
+  background: #EFEFEF;
+}
+
+.msk-compact-social-proof.msk-visible {
+  display: flex;
+}
+
+.msk-compact-social-proof-star {
+  width: 14px;
+  height: 14px;
+  color: #000000;
+}
+
+.msk-compact-social-proof-rating {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.msk-compact-social-proof-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #717171;
+}
+
+.msk-compact-social-proof-count {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #717171;
 }
 
 .msk-compact-price {
@@ -585,7 +676,25 @@
     <!-- MOBILE COMPACT -->
     <div class="msk-mobile-compact" id="msk-mobile-compact">
       <div class="msk-compact-header">
-        <div class="msk-compact-price" id="msk-price-compact"></div>
+        <div class="msk-compact-left">
+          <!-- Seller info (shown when no reviews) -->
+          <div class="msk-compact-seller" id="msk-compact-seller">
+            <img class="msk-compact-seller-avatar" id="msk-compact-seller-avatar" src="" alt="" />
+            <span class="msk-compact-seller-name" id="msk-compact-seller-name"></span>
+          </div>
+          <!-- Social proof (shown when reviews exist) -->
+          <div class="msk-compact-social-proof" id="msk-compact-social-proof">
+            <svg class="msk-compact-social-proof-star" viewBox="0 0 12 12" fill="currentColor">
+              <path d="M6 0l1.76 3.77 3.99.54-2.92 2.77.72 3.92L6 9.13 2.45 11l.72-3.92L.25 4.31l3.99-.54z"/>
+            </svg>
+            <span class="msk-compact-social-proof-rating" id="msk-compact-rating"></span>
+            <span class="msk-compact-social-proof-dot"></span>
+            <span class="msk-compact-social-proof-count" id="msk-compact-reviews-count"></span>
+          </div>
+        </div>
+        <div class="msk-compact-right">
+          <div class="msk-compact-price" id="msk-price-compact"></div>
+        </div>
       </div>
       <button class="msk-compact-cta-button" id="msk-compact-cta-button">
         <span id="msk-compact-cta-text">Get instant access</span>
@@ -696,7 +805,8 @@
       stripeNotReadyMessage: "This seller hasn't finished setting up their payment account yet.",
       stripeNotReadySellerMessage: "You haven't finished setting up your payment account yet.",
       goToSettings: 'Go to settings',
-      ctaButton: 'Get instant access'
+      ctaButton: 'Get instant access',
+      reviews: 'reviews'
     },
     fr: {
       orPayWithCard: 'Ou payer par carte',
@@ -710,7 +820,8 @@
       stripeNotReadyMessage: "Ce vendeur n'a pas encore finalisé la configuration de son compte de paiement.",
       stripeNotReadySellerMessage: "Vous n'avez pas encore finalisé la configuration de votre compte de paiement.",
       goToSettings: 'Accéder aux paramètres',
-      ctaButton: 'Obtenir maintenant'
+      ctaButton: 'Obtenir maintenant',
+      reviews: 'avis'
     },
     es: {
       orPayWithCard: 'O pagar con tarjeta',
@@ -724,7 +835,8 @@
       stripeNotReadyMessage: 'Este vendedor aún no ha terminado de configurar su cuenta de pagos.',
       stripeNotReadySellerMessage: 'Aún no has terminado de configurar tu cuenta de pagos.',
       goToSettings: 'Ir a configuración',
-      ctaButton: 'Obtener acceso'
+      ctaButton: 'Obtener acceso',
+      reviews: 'reseñas'
     },
     de: {
       orPayWithCard: 'Oder mit Karte zahlen',
@@ -738,7 +850,8 @@
       stripeNotReadyMessage: 'Dieser Verkäufer hat die Einrichtung seines Zahlungskontos noch nicht abgeschlossen.',
       stripeNotReadySellerMessage: 'Sie haben die Einrichtung Ihres Zahlungskontos noch nicht abgeschlossen.',
       goToSettings: 'Zu den Einstellungen',
-      ctaButton: 'Sofort erhalten'
+      ctaButton: 'Sofort erhalten',
+      reviews: 'Bewertungen'
     },
     it: {
       orPayWithCard: 'Oppure paga con carta',
@@ -752,7 +865,8 @@
       stripeNotReadyMessage: 'Questo venditore non ha ancora completato la configurazione del suo account di pagamento.',
       stripeNotReadySellerMessage: 'Non hai ancora completato la configurazione del tuo account di pagamento.',
       goToSettings: 'Vai alle impostazioni',
-      ctaButton: 'Ottieni accesso'
+      ctaButton: 'Ottieni accesso',
+      reviews: 'recensioni'
     },
     pt: {
       orPayWithCard: 'Ou pagar com cartão',
@@ -766,7 +880,8 @@
       stripeNotReadyMessage: 'Este vendedor ainda não terminou de configurar sua conta de pagamento.',
       stripeNotReadySellerMessage: 'Você ainda não terminou de configurar sua conta de pagamento.',
       goToSettings: 'Ir para configurações',
-      ctaButton: 'Obter acesso'
+      ctaButton: 'Obter acesso',
+      reviews: 'avaliações'
     },
     nl: {
       orPayWithCard: 'Of betaal met kaart',
@@ -780,7 +895,8 @@
       stripeNotReadyMessage: 'Deze verkoper heeft de configuratie van zijn betaalrekening nog niet voltooid.',
       stripeNotReadySellerMessage: 'U heeft de configuratie van uw betaalrekening nog niet voltooid.',
       goToSettings: 'Ga naar instellingen',
-      ctaButton: 'Direct toegang'
+      ctaButton: 'Direct toegang',
+      reviews: 'beoordelingen'
     },
     ja: {
       orPayWithCard: 'またはカードで支払う',
@@ -794,7 +910,8 @@
       stripeNotReadyMessage: 'この販売者はまだ支払いアカウントの設定を完了していません。',
       stripeNotReadySellerMessage: '支払いアカウントの設定がまだ完了していません。',
       goToSettings: '設定へ移動',
-      ctaButton: '今すぐ入手'
+      ctaButton: '今すぐ入手',
+      reviews: 'レビュー'
     }
   };
   
@@ -935,6 +1052,67 @@
         if (expandedAvatar) expandedAvatar.style.display = 'none';
         expandedSeller.classList.add('msk-visible');
       }
+    }
+  }
+
+  // Update mobile compact left side: seller info OR social proof
+  function updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage) {
+    const compactSeller = $('msk-compact-seller');
+    const compactSellerAvatar = $('msk-compact-seller-avatar');
+    const compactSellerName = $('msk-compact-seller-name');
+    const compactSocialProof = $('msk-compact-social-proof');
+    const compactRating = $('msk-compact-rating');
+    const compactReviewsCount = $('msk-compact-reviews-count');
+
+    // Check if we have reviews
+    const hasReviews = reviewsCount && reviewsCount > 0;
+
+    if (hasReviews && compactSocialProof) {
+      // Show social proof
+      if (compactSeller) compactSeller.classList.remove('msk-visible');
+      compactSocialProof.classList.add('msk-visible');
+
+      // Format rating (show 1 decimal if needed, e.g., 4.8)
+      const rating = parseFloat(reviewsAverage) || 5;
+      const formattedRating = rating % 1 === 0 ? rating.toFixed(0) : rating.toFixed(1);
+      if (compactRating) compactRating.textContent = formattedRating;
+      if (compactReviewsCount) compactReviewsCount.textContent = reviewsCount + ' ' + t.reviews;
+
+      // Add click handler to scroll to reviews section
+      compactSocialProof.onclick = function() {
+        scrollToReviews();
+      };
+
+      log.info('Mobile compact: showing social proof -', reviewsCount, 'reviews, avg:', formattedRating);
+    } else if (sellerName && sellerAvatar && compactSeller) {
+      // Show seller info (only if we have avatar)
+      if (compactSocialProof) compactSocialProof.classList.remove('msk-visible');
+      compactSeller.classList.add('msk-visible');
+
+      if (compactSellerAvatar) compactSellerAvatar.src = sellerAvatar;
+      if (compactSellerName) compactSellerName.textContent = sellerName;
+
+      log.info('Mobile compact: showing seller info -', sellerName);
+    } else {
+      // Hide both if no data
+      if (compactSeller) compactSeller.classList.remove('msk-visible');
+      if (compactSocialProof) compactSocialProof.classList.remove('msk-visible');
+      log.info('Mobile compact: no seller/reviews data, hiding left side');
+    }
+  }
+
+  // Scroll to reviews section
+  function scrollToReviews() {
+    // Try to find the reviews section in the content area
+    const reviewsSection = document.querySelector('.msk-reviews-section') ||
+                          document.getElementById('msk-reviews') ||
+                          document.querySelector('[id*="reviews"]');
+
+    if (reviewsSection) {
+      reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      log.info('Scrolled to reviews section');
+    } else {
+      log.warn('Reviews section not found for scroll');
     }
   }
   
@@ -1159,6 +1337,8 @@
     const priceBefore = detail.priceBefore || window.MySellKit?.priceBefore || '';
     const sellerName = detail.sellerName || window.MySellKit?.sellerName || '';
     const sellerAvatar = detail.sellerAvatar || window.MySellKit?.sellerAvatar || '';
+    const reviewsCount = detail.reviewsCount || window.MySellKit?.reviewsCount || 0;
+    const reviewsAverage = detail.reviewsAverage || window.MySellKit?.reviewsAverage || 0;
 
     let priceHTML = `<span>${amount}</span>`;
     if (priceBefore) priceHTML += `<span class="msk-price-before">${priceBefore}</span>`;
@@ -1170,7 +1350,10 @@
 
     // Update seller name with avatar and "Pay" prefix
     updateSellerName(sellerName, sellerAvatar);
-    
+
+    // Update mobile compact left side (seller info or social proof)
+    updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage);
+
     updateButtonText(amount);
     
     const checkout = window.MySellKit.checkout;
