@@ -303,14 +303,13 @@
         var files = config.filesList.split('|||').filter(function(f) { return f.trim(); });
         if (files.length > 0) {
           log.info('Building What\'s Included with', files.length, 'files');
-          var iconBgColor = config.primaryColor || '#2563eb';
           var filesHtml = files.map(function(file) {
             var fileName = file.trim();
             var lastDot = fileName.lastIndexOf('.');
             var name = lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
             var ext = lastDot > 0 ? fileName.substring(lastDot + 1) : '';
             var emoji = getFileEmoji(ext);
-            return '<div class="msk-file-item"><div class="msk-file-icon-box" style="background-color: ' + iconBgColor + '"><span class="msk-file-emoji">' + emoji + '</span></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext.toUpperCase() + '</span>' : '') + '</div></div>';
+            return '<div class="msk-file-item"><span class="msk-file-emoji">' + emoji + '</span><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext.toUpperCase() + '</span>' : '') + '</div></div>';
           }).join('');
           whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + t.whatsIncluded + '</h2><div class="msk-files-list">' + filesHtml + '</div>';
         }
@@ -323,24 +322,6 @@
         // Store original reviews for sorting
         var originalReviews = reviewsData.slice();
 
-        // Calculate rating distribution (5, 4, 3, 2, 1)
-        var ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-        reviewsData.forEach(function(review) {
-          var rating = Math.min(5, Math.max(1, review.rating));
-          ratingCounts[rating]++;
-        });
-
-        // Build rating distribution bars
-        var ratingDistributionHtml = '<div class="msk-rating-distribution">';
-        for (var star = 5; star >= 1; star--) {
-          var count = ratingCounts[star];
-          var percentage = reviewsData.length > 0 ? (count / reviewsData.length) * 100 : 0;
-          ratingDistributionHtml += '<div class="msk-rating-row">' +
-            '<span class="msk-rating-label">' + star + '</span>' +
-            '<div class="msk-rating-bar-bg"><div class="msk-rating-bar-fill" style="width: ' + percentage + '%"></div></div>' +
-            '</div>';
-        }
-        ratingDistributionHtml += '</div>';
 
         function buildReviewHtml(review, index) {
           var initials = getInitials(review.name);
@@ -380,9 +361,9 @@
         // Build reviews section with inner wrapper for padding
         reviewsEl.innerHTML = '<div class="msk-reviews-inner">' +
           '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviewsData.length + ' ' + t.reviews + '</h2>' + sortDropdownHtml + '</div>' +
-          ratingDistributionHtml +
           '</div>' +
-          '<div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
+          '<div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>' +
+          '<div class="msk-reviews-bottom-divider"></div>';
 
         // Sort functionality
         setTimeout(function() {
