@@ -16,7 +16,15 @@
   opacity: 1;
 }
 
-/* REVIEWS BADGE (below seller) */
+/* BADGES ROW (reviews + files) */
+.msk-badges-row {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+/* REVIEWS BADGE */
 .msk-reviews-badge {
   display: none;
   align-items: center;
@@ -26,8 +34,6 @@
   background: #F7F7F7;
   border-radius: 8px;
   transition: background 0.2s ease;
-  width: fit-content;
-  margin-bottom: 24px;
 }
 
 .msk-reviews-badge:hover {
@@ -60,12 +66,40 @@
   color: #717171;
 }
 
+/* FILES BADGE */
+.msk-files-badge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 12px;
+  background: #F7F7F7;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.msk-files-badge:hover {
+  background: #EFEFEF;
+}
+
+.msk-files-badge-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.msk-files-badge-text {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #717171;
+}
+
 /* PAGE TITLE (H1) */
 .msk-page-title {
   display: none;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #1a1a1a;
-  font-size: 34px;
+  font-size: 38px;
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.03em;
