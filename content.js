@@ -107,6 +107,46 @@
       });
     }
   }
+
+  // ========== FILE EXTENSION TO EMOJI MAP ==========
+  var FILE_EMOJIS = {
+    // Images
+    jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️', webp: '🖼️', svg: '🖼️', bmp: '🖼️', ico: '🖼️', tiff: '🖼️', psd: '🎨', ai: '🎨', sketch: '🎨', figma: '🎨', xd: '🎨',
+    // Videos
+    mp4: '🎬', mov: '🎬', avi: '🎬', mkv: '🎬', webm: '🎬', wmv: '🎬', flv: '🎬', m4v: '🎬',
+    // Audio
+    mp3: '🎵', wav: '🎵', flac: '🎵', aac: '🎵', ogg: '🎵', wma: '🎵', m4a: '🎵',
+    // Documents
+    pdf: '📄', doc: '📝', docx: '📝', txt: '📝', rtf: '📝', odt: '📝', pages: '📝',
+    // Spreadsheets
+    xls: '📊', xlsx: '📊', csv: '📊', numbers: '📊', ods: '📊',
+    // Presentations
+    ppt: '📽️', pptx: '📽️', key: '📽️', odp: '📽️',
+    // Archives
+    zip: '📦', rar: '📦', '7z': '📦', tar: '📦', gz: '📦',
+    // Code
+    js: '💻', ts: '💻', jsx: '💻', tsx: '💻', html: '💻', css: '💻', scss: '💻', sass: '💻', less: '💻', json: '💻', xml: '💻', py: '💻', rb: '💻', php: '💻', java: '💻', swift: '💻', kt: '💻', go: '💻', rs: '💻', c: '💻', cpp: '💻', h: '💻', cs: '💻', sql: '💻', sh: '💻', bash: '💻', yml: '💻', yaml: '💻', md: '💻', vue: '💻', svelte: '💻',
+    // Fonts
+    ttf: '🔤', otf: '🔤', woff: '🔤', woff2: '🔤', eot: '🔤',
+    // eBooks
+    epub: '📚', mobi: '📚', azw: '📚', azw3: '📚',
+    // 3D / CAD
+    obj: '🧊', stl: '🧊', fbx: '🧊', blend: '🧊', dwg: '🧊', dxf: '🧊',
+    // Maps / Geo
+    kml: '🗺️', kmz: '🗺️', gpx: '🗺️', geojson: '🗺️', shp: '🗺️',
+    // Database
+    db: '🗄️', sqlite: '🗄️', mdb: '🗄️',
+    // Executables
+    exe: '⚙️', dmg: '⚙️', app: '⚙️', apk: '⚙️', ipa: '⚙️', msi: '⚙️', deb: '⚙️', rpm: '⚙️',
+    // Default
+    default: '📁'
+  };
+
+  function getFileEmoji(extension) {
+    if (!extension) return FILE_EMOJIS.default;
+    var ext = extension.toLowerCase().replace('.', '');
+    return FILE_EMOJIS[ext] || FILE_EMOJIS.default;
+  }
   
   // ========== MYSELLKIT LOGO SVG ==========
   var MSK_LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="#2563eb" rx="80"/><path fill="url(#msk-grad)" d="M78.716 106.498c3.886-13.94 14.94-24.801 29.051-28.544l73.431-19.476c10.255-2.72 19.616 6.615 16.792 16.746l-20.706 74.278c-3.886 13.94-14.939 24.801-29.051 28.544l-73.43 19.476c-10.256 2.72-19.617-6.615-16.793-16.746z"/><defs><linearGradient id="msk-grad" x1="128" x2="128" y1="58" y2="198" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#b2d4ff"/></linearGradient></defs></svg>';
@@ -184,13 +224,14 @@
         pageTitleEl.style.display = 'none';
       }
 
-      // 2. Seller Block (avatar + name)
+      // 2. Seller Block (avatar + name with primary color)
       if (sellerBlockEl && isValidValue(config.sellerName)) {
+        var sellerColor = config.primaryColor || '#2563eb';
         var sellerHtml = '';
         if (isValidValue(config.sellerAvatar)) {
           sellerHtml += '<img class="msk-seller-avatar" src="' + config.sellerAvatar + '" alt="' + config.sellerName + '" />';
         }
-        sellerHtml += '<span class="msk-seller-name">' + config.sellerName + '</span>';
+        sellerHtml += '<span class="msk-seller-name" style="color: ' + sellerColor + '">' + config.sellerName + '</span>';
         sellerBlockEl.innerHTML = sellerHtml;
         sellerBlockEl.style.display = 'flex';
         log.info('Seller block:', config.sellerName);
@@ -198,11 +239,10 @@
         sellerBlockEl.style.display = 'none';
       }
 
-      // 3. Reviews Badge (only if reviews exist)
+      // 3. Reviews Badge (emoji star + rating/5 + count)
       if (reviewsBadgeEl && reviewsCount > 0) {
         var formattedRating = reviewsAverage % 1 === 0 ? reviewsAverage.toFixed(0) : reviewsAverage.toFixed(1);
-        var starSvg = '<svg class="msk-reviews-badge-star" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l1.76 3.77 3.99.54-2.92 2.77.72 3.92L6 9.13 2.45 11l.72-3.92L.25 4.31l3.99-.54z"/></svg>';
-        reviewsBadgeEl.innerHTML = starSvg + '<span class="msk-reviews-badge-rating">' + formattedRating + '</span><span class="msk-reviews-badge-dot"></span><span class="msk-reviews-badge-count">' + reviewsCount + ' ' + t.reviews + '</span>';
+        reviewsBadgeEl.innerHTML = '<span class="msk-reviews-badge-star">⭐</span><span class="msk-reviews-badge-rating">' + formattedRating + '/5</span><span class="msk-reviews-badge-dot"></span><span class="msk-reviews-badge-count">' + reviewsCount + ' ' + t.reviews + '</span>';
         reviewsBadgeEl.style.display = 'flex';
 
         // Click to scroll to reviews
@@ -212,7 +252,7 @@
             reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         };
-        log.info('Reviews badge: ' + formattedRating + ' / ' + reviewsCount + ' reviews');
+        log.info('Reviews badge: ' + formattedRating + '/5 - ' + reviewsCount + ' reviews');
       }
 
       // 4. HTML Content - decode base64
@@ -225,8 +265,8 @@
           applyHighlightColor(contentEl, config.primaryColor);
         }
       }
-      
-      // What's Included - uses primary color for icon background
+
+      // What's Included - uses emoji icons based on file extension
       if (whatsIncludedEl && isValidValue(config.filesList)) {
         var files = config.filesList.split('|||').filter(function(f) { return f.trim(); });
         if (files.length > 0) {
@@ -236,8 +276,9 @@
             var fileName = file.trim();
             var lastDot = fileName.lastIndexOf('.');
             var name = lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
-            var ext = lastDot > 0 ? fileName.substring(lastDot + 1).toUpperCase() : '';
-            return '<div class="msk-file-item"><div class="msk-file-icon-box" style="background-color: ' + iconBgColor + '"><svg class="msk-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div></div>';
+            var ext = lastDot > 0 ? fileName.substring(lastDot + 1) : '';
+            var emoji = getFileEmoji(ext);
+            return '<div class="msk-file-item"><div class="msk-file-icon-box" style="background-color: ' + iconBgColor + '"><span class="msk-file-emoji">' + emoji + '</span></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext.toUpperCase() + '</span>' : '') + '</div></div>';
           }).join('');
           whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + t.whatsIncluded + '</h2><div class="msk-files-list">' + filesHtml + '</div>';
         }
@@ -349,6 +390,14 @@
           '<span class="msk-footer-brand">MySellKit</span>' +
           '</a>';
         log.info('Footer rendered');
+      }
+
+      // Show content with fade-in (avoids flash of unstyled images)
+      var pageContainer = wrapper.querySelector('.mysellkit-page-container');
+      if (pageContainer) {
+        setTimeout(function() {
+          pageContainer.classList.add('msk-loaded');
+        }, 50);
       }
 
       log.success('Content render complete!');
