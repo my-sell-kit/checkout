@@ -16,7 +16,7 @@
 
 /* CONTENT WRAPPER - padded content with max-width */
 .msk-content-wrapper {
-  max-width: 680px;
+  max-width: 740px;
   margin: 0 auto;
   width: 100%;
   padding: 48px 48px 32px 48px;
@@ -144,7 +144,7 @@
 
 /* MYSELLKIT FOOTER - padded wrapper */
 .msk-footer {
-  max-width: 680px;
+  max-width: 740px;
   margin: 0 auto;
   padding: 48px 48px 24px 48px;
   box-sizing: border-box;
@@ -434,28 +434,26 @@
 .msk-files-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  background: #f5f5f5;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .msk-file-item {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  padding: 12px 16px;
 }
 
-.msk-file-icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.msk-file-item + .msk-file-item {
+  border-top: 1px solid #e8e8e8;
 }
 
 .msk-file-emoji {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .msk-file-info {
@@ -498,7 +496,7 @@
 
 /* Reviews inner wrapper with padding */
 .msk-reviews-inner {
-  max-width: 680px;
+  max-width: 740px;
   margin: 0 auto;
   padding: 0 48px;
   box-sizing: border-box;
@@ -528,45 +526,9 @@
   margin: 0;
 }
 
-/* RATING DISTRIBUTION - Airbnb style */
-.msk-rating-distribution {
-  margin-bottom: 24px;
-}
-
-.msk-rating-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.msk-rating-row:last-child {
-  margin-bottom: 0;
-}
-
-.msk-rating-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1a1a1a;
-  width: 12px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-.msk-rating-bar-bg {
-  flex: 1;
-  height: 4px;
-  background: #e0e0e0;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.msk-rating-bar-fill {
-  height: 100%;
-  background: #1a1a1a;
-  border-radius: 2px;
-  transition: width 0.3s ease;
+/* Bottom divider after reviews section */
+.msk-reviews-bottom-divider {
+  border-top: 1px solid #ebebeb;
 }
 
 /* Sort dropdown container */
@@ -662,7 +624,7 @@
 
 /* Review content with padding */
 .msk-review-content {
-  max-width: 680px;
+  max-width: 740px;
   margin: 0 auto;
   padding: 24px 48px;
   box-sizing: border-box;
