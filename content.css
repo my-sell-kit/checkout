@@ -578,17 +578,20 @@
 .msk-reviews-sort {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 6px !important;
+  padding: 10px 14px !important;
   background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 20px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 13px !important;
   font-weight: 500;
   color: #1a1a1a;
   cursor: pointer;
   transition: all 0.2s ease;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
 }
 
 .msk-reviews-sort:hover {
