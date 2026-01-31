@@ -284,7 +284,7 @@
   font-size: 14px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-width: 0;
-  flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .msk-expanded-access-to {
@@ -338,6 +338,14 @@
   }
 }
 
+/* Desktop price row with savings badge */
+.msk-price-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
 .msk-payment-amount {
   font-size: 38px;
   font-weight: 500;
@@ -349,7 +357,10 @@
   flex-wrap: wrap;
   line-height: 1.2;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  margin-bottom: 28px;
+}
+
+.msk-savings-desktop {
+  flex-shrink: 0;
 }
 
 .msk-price-before {
@@ -364,7 +375,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: none;
 }
@@ -382,11 +393,15 @@
 .msk-product-header .msk-access-to {
   color: #6b7280;
   font-weight: 400;
+  flex-shrink: 0;
 }
 
 .msk-product-header .msk-product-name {
   color: #0570DE;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .msk-express-section {
@@ -651,7 +666,10 @@
           <span class="msk-product-name" id="msk-product-name-desktop"></span>
         </div>
       </div>
-      <div class="msk-payment-amount" id="msk-price-desktop"></div>
+      <div class="msk-price-row">
+        <div class="msk-payment-amount" id="msk-price-desktop"></div>
+        <div class="msk-savings-badge msk-savings-desktop" id="msk-savings-badge-desktop"></div>
+      </div>
 
       <div class="msk-express-section" id="msk-express-desktop">
         <div id="express-checkout-element"></div>
@@ -985,10 +1003,10 @@
     }
   }
 
-  // Update mobile compact savings badge
+  // Update savings badges (mobile compact + desktop)
   function updateSavingsBadge(amountRaw, priceBeforeRaw) {
-    const savingsBadge = $('msk-savings-badge');
-    if (!savingsBadge) return;
+    const savingsBadgeMobile = $('msk-savings-badge');
+    const savingsBadgeDesktop = $('msk-savings-badge-desktop');
 
     // Extract numeric values from formatted prices (e.g., "$29.99" -> 29.99, "€29,99" -> 29.99)
     const parsePrice = (priceStr) => {
@@ -1004,14 +1022,22 @@
     if (originalPrice > 0 && currentPrice > 0 && originalPrice > currentPrice) {
       const savingsPercent = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
       if (savingsPercent > 0) {
-        savingsBadge.textContent = t.save + ' ' + savingsPercent + '%';
-        savingsBadge.classList.add('msk-visible');
+        const badgeText = t.save + ' ' + savingsPercent + '%';
+        if (savingsBadgeMobile) {
+          savingsBadgeMobile.textContent = badgeText;
+          savingsBadgeMobile.classList.add('msk-visible');
+        }
+        if (savingsBadgeDesktop) {
+          savingsBadgeDesktop.textContent = badgeText;
+          savingsBadgeDesktop.classList.add('msk-visible');
+        }
         log.info('Savings badge: ' + savingsPercent + '%');
         return;
       }
     }
 
-    savingsBadge.classList.remove('msk-visible');
+    if (savingsBadgeMobile) savingsBadgeMobile.classList.remove('msk-visible');
+    if (savingsBadgeDesktop) savingsBadgeDesktop.classList.remove('msk-visible');
   }
   
   function showStripeNotReady(settingsUrl) {
