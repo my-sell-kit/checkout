@@ -153,62 +153,7 @@
   color: #0570DE;
 }
 
-/* MYSELLKIT FOOTER - padded wrapper */
-.msk-footer {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 48px 48px 24px 48px;
-  box-sizing: border-box;
-}
-
-@media (max-width: 991px) {
-  .msk-footer {
-    padding: 28px 28px 16px 28px;
-  }
-}
-
-/* FORCE MOBILE MODE */
-.msk-force-mobile .msk-footer {
-  padding: 28px 28px 16px 28px;
-}
-
-.msk-footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.msk-footer-text {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: #717171;
-}
-
-.msk-footer-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.msk-footer-link:hover {
-  opacity: 0.7;
-}
-
-.msk-footer-link svg {
-  width: 16px;
-  height: 16px;
-}
-
-.msk-footer-brand {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
+/* MYSELLKIT FOOTER - Moved to checkout section */
 
 /* HTML CONTENT SECTION */
 .mysellkit-content {
@@ -528,9 +473,11 @@
   line-height: 1.4 !important;
 }
 
-/* REVIEWS - Full width section */
+/* REVIEWS - Full width section (no bottom padding - this is the end of the page) */
 .msk-reviews-section {
   margin-top: 48px;
+  margin-bottom: 0;
+  padding-bottom: 0;
   width: 100%;
 }
 
@@ -575,10 +522,7 @@
   margin: 0;
 }
 
-/* Bottom divider after reviews section */
-.msk-reviews-bottom-divider {
-  border-top: 1px solid #ebebeb;
-}
+/* Bottom divider removed - reviews section is now the bottom of the page */
 
 /* Sort dropdown container */
 .msk-reviews-sort-container {
