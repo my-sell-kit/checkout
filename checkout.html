@@ -376,7 +376,7 @@
   font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
-  margin-bottom: 24px;
+  margin-bottom: 48px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: none;
 }
@@ -582,6 +582,62 @@
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+/* ========== MYSELLKIT FOOTER ========== */
+.msk-checkout-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 48px;
+}
+
+.msk-checkout-footer-text {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #717171;
+}
+
+.msk-checkout-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.msk-checkout-footer-link:hover {
+  opacity: 0.7;
+}
+
+.msk-checkout-footer-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.msk-checkout-footer-brand {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Mobile compact footer */
+.msk-compact-footer {
+  display: none;
+  margin-top: 16px;
+}
+
+@media (max-width: 991px) {
+  .msk-compact-footer {
+    display: flex;
+  }
+
+  .msk-checkout-footer {
+    margin-top: 16px;
+  }
+}
+
 </style>
 
 <div class="msk-payment-embed">
@@ -621,6 +677,14 @@
       <button class="msk-compact-cta-button" id="msk-compact-cta-button">
         <span id="msk-compact-cta-text">Get instant access</span>
       </button>
+      <!-- MySellKit Footer (mobile compact only) -->
+      <div class="msk-checkout-footer msk-compact-footer" id="msk-footer-compact">
+        <span class="msk-checkout-footer-text" id="msk-footer-text-compact"></span>
+        <a class="msk-checkout-footer-link" href="https://mysellkit.com" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="#2563eb" rx="80"/><path fill="url(#msk-grad-compact)" d="M78.716 106.498c3.886-13.94 14.94-24.801 29.051-28.544l73.431-19.476c10.255-2.72 19.616 6.615 16.792 16.746l-20.706 74.278c-3.886 13.94-14.939 24.801-29.051 28.544l-73.43 19.476c-10.256 2.72-19.617-6.615-16.793-16.746z"/><defs><linearGradient id="msk-grad-compact" x1="128" x2="128" y1="58" y2="198" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#b2d4ff"/></linearGradient></defs></svg>
+          <span class="msk-checkout-footer-brand">MySellKit</span>
+        </a>
+      </div>
     </div>
 
     <!-- MOBILE EXPANDED -->
@@ -696,6 +760,15 @@
       </button>
 
       <div class="msk-payment-message" id="msk-message-desktop"></div>
+
+      <!-- MySellKit Footer (desktop) -->
+      <div class="msk-checkout-footer" id="msk-footer-desktop">
+        <span class="msk-checkout-footer-text" id="msk-footer-text-desktop"></span>
+        <a class="msk-checkout-footer-link" href="https://mysellkit.com" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="#2563eb" rx="80"/><path fill="url(#msk-grad-desktop)" d="M78.716 106.498c3.886-13.94 14.94-24.801 29.051-28.544l73.431-19.476c10.255-2.72 19.616 6.615 16.792 16.746l-20.706 74.278c-3.886 13.94-14.939 24.801-29.051 28.544l-73.43 19.476c-10.256 2.72-19.617-6.615-16.793-16.746z"/><defs><linearGradient id="msk-grad-desktop" x1="128" x2="128" y1="58" y2="198" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#b2d4ff"/></linearGradient></defs></svg>
+          <span class="msk-checkout-footer-brand">MySellKit</span>
+        </a>
+      </div>
     </div>
 
   </div>
@@ -731,7 +804,8 @@
       ctaButton: 'Get instant access',
       reviews: 'reviews',
       accessTo: 'Access',
-      save: 'Save'
+      save: 'Save',
+      createdIn: 'Created in 2 minutes with'
     },
     fr: {
       orPayWithCard: 'Ou payer par carte',
@@ -748,7 +822,8 @@
       ctaButton: 'Obtenir maintenant',
       reviews: 'avis',
       accessTo: 'Accéder à',
-      save: 'Économisez'
+      save: 'Économisez',
+      createdIn: 'Créé en 2 minutes avec'
     },
     es: {
       orPayWithCard: 'O pagar con tarjeta',
@@ -765,7 +840,8 @@
       ctaButton: 'Obtener acceso',
       reviews: 'reseñas',
       accessTo: 'Acceder a',
-      save: 'Ahorra'
+      save: 'Ahorra',
+      createdIn: 'Creado en 2 minutos con'
     },
     de: {
       orPayWithCard: 'Oder mit Karte zahlen',
@@ -782,7 +858,8 @@
       ctaButton: 'Sofort erhalten',
       reviews: 'Bewertungen',
       accessTo: 'Zugang zu',
-      save: 'Sparen Sie'
+      save: 'Sparen Sie',
+      createdIn: 'Erstellt in 2 Minuten mit'
     },
     it: {
       orPayWithCard: 'Oppure paga con carta',
@@ -799,7 +876,8 @@
       ctaButton: 'Ottieni accesso',
       reviews: 'recensioni',
       accessTo: 'Accedi a',
-      save: 'Risparmia'
+      save: 'Risparmia',
+      createdIn: 'Creato in 2 minuti con'
     },
     pt: {
       orPayWithCard: 'Ou pagar com cartão',
@@ -816,7 +894,8 @@
       ctaButton: 'Obter acesso',
       reviews: 'avaliações',
       accessTo: 'Acessar',
-      save: 'Economize'
+      save: 'Economize',
+      createdIn: 'Criado em 2 minutos com'
     },
     nl: {
       orPayWithCard: 'Of betaal met kaart',
@@ -833,7 +912,8 @@
       ctaButton: 'Direct toegang',
       reviews: 'beoordelingen',
       accessTo: 'Toegang tot',
-      save: 'Bespaar'
+      save: 'Bespaar',
+      createdIn: 'Gemaakt in 2 minuten met'
     },
     ja: {
       orPayWithCard: 'またはカードで支払う',
@@ -850,7 +930,8 @@
       ctaButton: '今すぐ入手',
       reviews: 'レビュー',
       accessTo: 'アクセス',
-      save: '節約'
+      save: '節約',
+      createdIn: '2分で作成'
     }
   };
   
@@ -949,6 +1030,13 @@
 
     const stripeNotReadyButtonText = $('msk-stripe-not-ready-button-text');
     if (stripeNotReadyButtonText) stripeNotReadyButtonText.textContent = t.goToSettings;
+
+    // Footer translations
+    const footerTextDesktop = $('msk-footer-text-desktop');
+    if (footerTextDesktop) footerTextDesktop.textContent = t.createdIn;
+
+    const footerTextCompact = $('msk-footer-text-compact');
+    if (footerTextCompact) footerTextCompact.textContent = t.createdIn;
   }
   
   // Update product header with "Access to [product]" - both mobile expanded and desktop
@@ -1100,6 +1188,9 @@
       expanded.classList.add('msk-hidden');
     }
     if (desktop) desktop.style.display = 'none';
+
+    // Update mobile padding when switching to compact mode
+    setTimeout(updateMobileContentPadding, 50);
   }
 
   function setMobileExpanded() {
@@ -1138,6 +1229,9 @@
       if (expressSection) expressSection.style.display = 'none';
       if (separatorMobile) separatorMobile.style.display = 'none';
     }
+
+    // Update mobile padding when switching to expanded mode
+    setTimeout(updateMobileContentPadding, 50);
   }
   
   function setDesktopLayout() {
@@ -1458,6 +1552,51 @@
     showError('Failed to load. Please refresh.', 'msk-message-desktop');
   });
   
+  // ========== MOBILE PADDING MANAGEMENT ==========
+  // Calculates the height of the checkout block and dispatches an event
+  // so the parent application can apply padding to prevent content overlap
+  function updateMobileContentPadding() {
+    if (!isMobile) {
+      // On desktop, dispatch event with 0 padding
+      window.dispatchEvent(new CustomEvent('mysellkit:checkout-height', {
+        detail: { height: 0, isMobile: false }
+      }));
+      return;
+    }
+
+    const container = $('msk-container');
+    if (!container) return;
+
+    // Get the height of the visible checkout element (compact or expanded)
+    const compact = $('msk-mobile-compact');
+    const expanded = $('msk-mobile-expanded');
+
+    let checkoutHeight = 0;
+
+    if (isExpanded && expanded && !expanded.classList.contains('msk-hidden')) {
+      // In expanded mode, the checkout takes full screen - no padding needed
+      checkoutHeight = 0;
+    } else if (compact && compact.style.display !== 'none') {
+      // In compact mode, get the height of the compact section + container padding
+      checkoutHeight = container.offsetHeight;
+    }
+
+    log.info('Mobile checkout height:', checkoutHeight);
+
+    // Dispatch event with the height
+    window.dispatchEvent(new CustomEvent('mysellkit:checkout-height', {
+      detail: {
+        height: checkoutHeight,
+        isMobile: true,
+        isExpanded: isExpanded
+      }
+    }));
+  }
+
+  // Expose the function globally for manual calls
+  window.MySellKit = window.MySellKit || {};
+  window.MySellKit.updateMobileContentPadding = updateMobileContentPadding;
+
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -1485,8 +1624,10 @@
           setDesktopLayout();
         }
       }
+      // Update mobile padding after resize
+      updateMobileContentPadding();
     }, 300);
   });
-  
+
 })();
 </script>

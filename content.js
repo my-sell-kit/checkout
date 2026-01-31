@@ -213,8 +213,8 @@
 
       // Build structure with new order:
       // 1. Content wrapper (padded): H1, Seller, Badges, HTML, What's included
-      // 2. Reviews section (full-width with internal padding)
-      // 3. Footer (padded)
+      // 2. Reviews section (full-width with internal padding, no bottom padding)
+      // Note: Footer has been moved to checkout section
       wrapper.innerHTML = '<div class="mysellkit-page-container">' +
         '<div class="msk-content-wrapper">' +
           '<h1 class="msk-page-title" id="msk-page-title"></h1>' +
@@ -227,7 +227,6 @@
           '<div class="msk-whats-included-section" id="msk-whats-included"></div>' +
         '</div>' +
         '<div class="msk-reviews-section" id="msk-reviews"></div>' +
-        '<div class="msk-footer" id="msk-footer"></div>' +
         '</div>';
 
       var reviewsBadgeEl = document.getElementById('msk-reviews-badge');
@@ -238,7 +237,6 @@
       var contentEl = document.getElementById('mysellkit-content');
       var whatsIncludedEl = document.getElementById('msk-whats-included');
       var reviewsEl = document.getElementById('msk-reviews');
-      var footerEl = document.getElementById('msk-footer');
 
       // Parse reviews to get count and average (needed for badge)
       var reviewsData = [];
@@ -398,12 +396,11 @@
           }).join('') +
           '</div></div>';
 
-        // Build reviews section with inner wrapper for padding
+        // Build reviews section with inner wrapper for padding (no bottom divider)
         reviewsEl.innerHTML = '<div class="msk-reviews-inner">' +
           '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviewsData.length + ' ' + t.reviews + '</h2>' + sortDropdownHtml + '</div>' +
           '</div>' +
-          '<div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>' +
-          '<div class="msk-reviews-bottom-divider"></div>';
+          '<div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
 
         // Sort functionality
         setTimeout(function() {
@@ -461,18 +458,6 @@
             });
           }
         }, 100);
-      }
-
-      // 7. MySellKit Footer (always displayed)
-      if (footerEl) {
-        footerEl.innerHTML = '<div class="msk-footer-inner">' +
-          '<span class="msk-footer-text">' + t.createdIn + '</span>' +
-          '<a class="msk-footer-link" href="https://mysellkit.com" target="_blank" rel="noopener">' +
-          MSK_LOGO_SVG +
-          '<span class="msk-footer-brand">MySellKit</span>' +
-          '</a>' +
-          '</div>';
-        log.info('Footer rendered');
       }
 
       // Show content with fade-in (avoids flash of unstyled images)
