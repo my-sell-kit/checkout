@@ -3,15 +3,17 @@
    Modern flat design inspired by Airbnb/Apple/Notion
    ============================================ */
 
-/* CONTAINER - hidden until JS renders */
+/* CONTAINER - hidden until JS renders, slide-up + fade-in */
 .mysellkit-page-container {
   width: 100%;
   opacity: 0;
-  transition: opacity 0.15s ease-in;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 .mysellkit-page-container.msk-loaded {
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* CONTENT WRAPPER - padded content with max-width */
@@ -428,7 +430,16 @@
 }
 
 .msk-whats-included-section .mysellkit-section-title {
-  margin-bottom: 16px;
+  margin-bottom: 6px;
+}
+
+.msk-whats-included-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #717171;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
 }
 
 .msk-files-list {
