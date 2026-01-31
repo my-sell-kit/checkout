@@ -12,14 +12,14 @@
   
   // ========== TRANSLATIONS ==========
   var TRANSLATIONS = {
-    en: { whatsIncluded: "What's included", reviews: "reviews", mostRecent: "Most recent", highestRated: "Highest rated", lowestRated: "Lowest rated", verified: "Verified", createdIn: "Created in 2 minutes with" },
-    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", mostRecent: "Plus récents", highestRated: "Meilleures notes", lowestRated: "Moins bonnes notes", verified: "Vérifié", createdIn: "Créé en 2 minutes avec" },
-    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", mostRecent: "Más recientes", highestRated: "Mejor valorados", lowestRated: "Peor valorados", verified: "Verificado", createdIn: "Creado en 2 minutos con" },
-    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", mostRecent: "Neueste", highestRated: "Beste Bewertung", lowestRated: "Schlechteste Bewertung", verified: "Verifiziert", createdIn: "Erstellt in 2 Minuten mit" },
-    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", mostRecent: "Più recenti", highestRated: "Voto più alto", lowestRated: "Voto più basso", verified: "Verificato", createdIn: "Creato in 2 minuti con" },
-    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", mostRecent: "Mais recentes", highestRated: "Melhor avaliados", lowestRated: "Pior avaliados", verified: "Verificado", createdIn: "Criado em 2 minutos com" },
-    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", mostRecent: "Meest recent", highestRated: "Hoogst beoordeeld", lowestRated: "Laagst beoordeeld", verified: "Geverifieerd", createdIn: "Gemaakt in 2 minuten met" },
-    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", mostRecent: "最新", highestRated: "高評価順", lowestRated: "低評価順", verified: "認証済み", createdIn: "2分で作成" }
+    en: { whatsIncluded: "What's included", reviews: "reviews", mostRecent: "Most recent", highestRated: "Highest rated", lowestRated: "Lowest rated", verified: "Verified", createdIn: "Created in 2 minutes with", includesFile: "Includes 1 file", includesFiles: "Includes {count} files" },
+    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", mostRecent: "Plus récents", highestRated: "Meilleures notes", lowestRated: "Moins bonnes notes", verified: "Vérifié", createdIn: "Créé en 2 minutes avec", includesFile: "Inclut 1 fichier", includesFiles: "Inclut {count} fichiers" },
+    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", mostRecent: "Más recientes", highestRated: "Mejor valorados", lowestRated: "Peor valorados", verified: "Verificado", createdIn: "Creado en 2 minutos con", includesFile: "Incluye 1 archivo", includesFiles: "Incluye {count} archivos" },
+    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", mostRecent: "Neueste", highestRated: "Beste Bewertung", lowestRated: "Schlechteste Bewertung", verified: "Verifiziert", createdIn: "Erstellt in 2 Minuten mit", includesFile: "Enthält 1 Datei", includesFiles: "Enthält {count} Dateien" },
+    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", mostRecent: "Più recenti", highestRated: "Voto più alto", lowestRated: "Voto più basso", verified: "Verificato", createdIn: "Creato in 2 minuti con", includesFile: "Include 1 file", includesFiles: "Include {count} file" },
+    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", mostRecent: "Mais recentes", highestRated: "Melhor avaliados", lowestRated: "Pior avaliados", verified: "Verificado", createdIn: "Criado em 2 minutos com", includesFile: "Inclui 1 arquivo", includesFiles: "Inclui {count} arquivos" },
+    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", mostRecent: "Meest recent", highestRated: "Hoogst beoordeeld", lowestRated: "Laagst beoordeeld", verified: "Geverifieerd", createdIn: "Gemaakt in 2 minuten met", includesFile: "Bevat 1 bestand", includesFiles: "Bevat {count} bestanden" },
+    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", mostRecent: "最新", highestRated: "高評価順", lowestRated: "低評価順", verified: "認証済み", createdIn: "2分で作成", includesFile: "1ファイル含む", includesFiles: "{count}ファイル含む" }
   };
   
   function detectLanguage() {
@@ -174,7 +174,7 @@
       // Build structure with new order:
       // 1. H1 title
       // 2. Seller block (avatar + name)
-      // 3. Reviews badge (if reviews exist)
+      // 3. Badges row (reviews badge + files badge)
       // 4. HTML content
       // 5. What's included
       // 6. Reviews section
@@ -182,7 +182,10 @@
       wrapper.innerHTML = '<div class="mysellkit-page-container">' +
         '<h1 class="msk-page-title" id="msk-page-title"></h1>' +
         '<div class="msk-seller-block" id="msk-seller-block"></div>' +
-        '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
+        '<div class="msk-badges-row" id="msk-badges-row">' +
+          '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
+          '<div class="msk-files-badge" id="msk-files-badge"></div>' +
+        '</div>' +
         '<div class="mysellkit-content" id="mysellkit-content"></div>' +
         '<div class="msk-whats-included-section" id="msk-whats-included"></div>' +
         '<div class="msk-reviews-section" id="msk-reviews"></div>' +
@@ -190,6 +193,8 @@
         '</div>';
 
       var reviewsBadgeEl = document.getElementById('msk-reviews-badge');
+      var filesBadgeEl = document.getElementById('msk-files-badge');
+      var badgesRowEl = document.getElementById('msk-badges-row');
       var pageTitleEl = document.getElementById('msk-page-title');
       var sellerBlockEl = document.getElementById('msk-seller-block');
       var contentEl = document.getElementById('mysellkit-content');
@@ -224,19 +229,25 @@
         pageTitleEl.style.display = 'none';
       }
 
-      // 2. Seller Block (avatar + name with primary color)
+      // 2. Seller Block (avatar + name)
       if (sellerBlockEl && isValidValue(config.sellerName)) {
-        var sellerColor = config.primaryColor || '#2563eb';
         var sellerHtml = '';
         if (isValidValue(config.sellerAvatar)) {
           sellerHtml += '<img class="msk-seller-avatar" src="' + config.sellerAvatar + '" alt="' + config.sellerName + '" />';
         }
-        sellerHtml += '<span class="msk-seller-name" style="color: ' + sellerColor + '">' + config.sellerName + '</span>';
+        sellerHtml += '<span class="msk-seller-name">' + config.sellerName + '</span>';
         sellerBlockEl.innerHTML = sellerHtml;
         sellerBlockEl.style.display = 'flex';
         log.info('Seller block:', config.sellerName);
       } else if (sellerBlockEl) {
         sellerBlockEl.style.display = 'none';
+      }
+
+      // Parse files count for badges
+      var filesCount = 0;
+      if (isValidValue(config.filesList)) {
+        var filesParsed = config.filesList.split('|||').filter(function(f) { return f.trim(); });
+        filesCount = filesParsed.length;
       }
 
       // 3. Reviews Badge (emoji star + rating/5 + count)
@@ -253,6 +264,29 @@
           }
         };
         log.info('Reviews badge: ' + formattedRating + '/5 - ' + reviewsCount + ' reviews');
+      }
+
+      // 4. Files Badge (shows file count, scrolls to What's included)
+      if (filesBadgeEl && filesCount > 0) {
+        var filesText = filesCount === 1 ? t.includesFile : t.includesFiles.replace('{count}', filesCount);
+        filesBadgeEl.innerHTML = '<span class="msk-files-badge-icon">📁</span><span class="msk-files-badge-text">' + filesText + '</span>';
+        filesBadgeEl.style.display = 'flex';
+
+        // Click to scroll to What's included
+        filesBadgeEl.onclick = function() {
+          var whatsIncludedSection = document.getElementById('msk-whats-included');
+          if (whatsIncludedSection) {
+            whatsIncludedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        };
+        log.info('Files badge: ' + filesCount + ' files');
+      }
+
+      // Show badges row if at least one badge is visible
+      if (badgesRowEl && (reviewsCount > 0 || filesCount > 0)) {
+        badgesRowEl.style.display = 'flex';
+      } else if (badgesRowEl) {
+        badgesRowEl.style.display = 'none';
       }
 
       // 4. HTML Content - decode base64
