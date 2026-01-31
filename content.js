@@ -33,15 +33,50 @@
   // ========== HELPER FUNCTIONS ==========
   
   /**
-   * Decode base64 HTML content with UTF-8 support
+   * Check if a string is valid base64
    */
-  function decodeBase64Html(content) {
+  function isBase64(str) {
+    if (!str || typeof str !== 'string') return false;
+    var trimmed = str.trim();
+    
+    // If it contains HTML tags, it's definitely not base64
+    if (/<[a-z][\s\S]*>/i.test(trimmed)) {
+      return false;
+    }
+    
+    // Check if it matches base64 pattern (only valid base64 characters)
+    var base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+    if (!base64Regex.test(trimmed)) {
+      return false;
+    }
+    
+    // Try to decode and check if result looks like HTML or text
+    try {
+      var decoded = atob(trimmed);
+      // If decoded content contains HTML-like patterns, it was likely base64
+      return decoded.length > 0;
+    } catch (e) {
+      return false;
+    }
+  }
+  
+  /**
+   * Decode base64 HTML content with UTF-8 support, or return raw HTML if not encoded
+   */
+  function decodeHtmlContent(content) {
     if (!content) return '';
 
     var trimmed = content.trim();
+    
+    // Auto-detect: if it's not base64, return as-is (raw HTML)
+    if (!isBase64(trimmed)) {
+      log.info('Content detected as raw HTML (not base64)');
+      return trimmed;
+    }
 
+    // It's base64, decode it
     try {
-      log.info('Decoding base64 content');
+      log.info('Content detected as base64, decoding...');
       var binaryString = atob(trimmed);
       var bytes = new Uint8Array(binaryString.length);
       for (var i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
@@ -55,6 +90,11 @@
         return trimmed;
       }
     }
+  }
+  
+  // Legacy function name for backwards compatibility
+  function decodeBase64Html(content) {
+    return decodeHtmlContent(content);
   }
   
   function isValidValue(value) {
@@ -287,10 +327,10 @@
         badgesRowEl.style.display = 'none';
       }
 
-      // 4. HTML Content - decode base64
+      // 4. HTML Content - auto-detect base64 or raw HTML
       if (contentEl && isValidValue(config.htmlContent)) {
         log.info('Processing HTML content');
-        contentEl.innerHTML = decodeBase64Html(config.htmlContent);
+        contentEl.innerHTML = decodeHtmlContent(config.htmlContent);
 
         // Apply primary color to highlighted text if provided
         if (config.primaryColor) {
