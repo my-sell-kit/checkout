@@ -48,12 +48,14 @@
 .msk-reviews-badge {
   display: none;
   align-items: center;
-  gap: 6px;
+  gap: 6px !important;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 8px 14px !important;
   background: #F7F7F7;
   border-radius: 8px;
   transition: background 0.2s ease;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
 }
 
 .msk-reviews-badge:hover {
@@ -90,12 +92,14 @@
 .msk-files-badge {
   display: none;
   align-items: center;
-  gap: 6px;
+  gap: 6px !important;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 8px 14px !important;
   background: #F7F7F7;
   border-radius: 8px;
   transition: background 0.2s ease;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
 }
 
 .msk-files-badge:hover {
@@ -463,8 +467,10 @@
 .msk-file-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
+  gap: 16px !important;
+  padding: 16px 18px !important;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
 }
 
 .msk-file-item + .msk-file-item {
@@ -480,29 +486,36 @@
 .msk-file-info {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 2px !important;
   overflow: hidden;
   flex: 1;
   min-width: 0;
+  line-height: 1.4 !important;
 }
 
 .msk-file-name {
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
+  font-size: 15px !important;
   font-weight: 500;
   color: #1a1a1a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
 }
 
 .msk-file-ext {
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
+  font-size: 13px !important;
   font-weight: 400;
   color: #717171;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.4 !important;
 }
 
 /* REVIEWS - Full width section */
