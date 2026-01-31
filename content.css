@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-/* REVIEWS BADGE (top of page) */
+/* REVIEWS BADGE (below seller) */
 .msk-reviews-badge {
   display: none;
   align-items: center;
@@ -21,7 +21,7 @@
   border-radius: 8px;
   transition: background 0.2s ease;
   width: fit-content;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .msk-reviews-badge:hover {
@@ -60,11 +60,11 @@
   display: none;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #1a1a1a;
-  font-size: 28px;
+  font-size: 34px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.15;
   letter-spacing: -0.03em;
-  margin: 0 0 12px 0;
+  margin: 0 0 20px 0;
 }
 
 /* SELLER BLOCK */
@@ -72,27 +72,22 @@
   display: none;
   align-items: center;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .msk-seller-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.msk-seller-text {
+.msk-seller-name {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
-  font-weight: 400;
-  color: #717171;
-}
-
-.msk-seller-name {
   font-weight: 500;
-  color: #1a1a1a;
+  color: #2563eb;
 }
 
 /* MYSELLKIT FOOTER */
@@ -373,26 +368,22 @@
   margin-bottom: 16px;
 }
 
-.msk-files-grid {
+.msk-files-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
-.msk-file-block {
+.msk-file-item {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
-  background: #f7f7f7;
-  border-radius: 14px;
 }
 
-.msk-file-icon-wrapper {
-  width: 38px;
-  height: 38px;
-  background: #ffffff;
-  border-radius: 10px;
+.msk-file-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,9 +391,9 @@
 }
 
 .msk-file-icon {
-  width: 18px;
-  height: 18px;
-  color: #1a1a1a;
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
 }
 
 .msk-file-info {

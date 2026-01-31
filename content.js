@@ -12,14 +12,14 @@
   
   // ========== TRANSLATIONS ==========
   var TRANSLATIONS = {
-    en: { whatsIncluded: "What's included", reviews: "reviews", mostRecent: "Most recent", highestRated: "Highest rated", lowestRated: "Lowest rated", verified: "Verified", by: "by", createdIn: "Created in 2 minutes with" },
-    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", mostRecent: "Plus récents", highestRated: "Meilleures notes", lowestRated: "Moins bonnes notes", verified: "Vérifié", by: "par", createdIn: "Créé en 2 minutes avec" },
-    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", mostRecent: "Más recientes", highestRated: "Mejor valorados", lowestRated: "Peor valorados", verified: "Verificado", by: "por", createdIn: "Creado en 2 minutos con" },
-    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", mostRecent: "Neueste", highestRated: "Beste Bewertung", lowestRated: "Schlechteste Bewertung", verified: "Verifiziert", by: "von", createdIn: "Erstellt in 2 Minuten mit" },
-    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", mostRecent: "Più recenti", highestRated: "Voto più alto", lowestRated: "Voto più basso", verified: "Verificato", by: "di", createdIn: "Creato in 2 minuti con" },
-    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", mostRecent: "Mais recentes", highestRated: "Melhor avaliados", lowestRated: "Pior avaliados", verified: "Verificado", by: "por", createdIn: "Criado em 2 minutos com" },
-    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", mostRecent: "Meest recent", highestRated: "Hoogst beoordeeld", lowestRated: "Laagst beoordeeld", verified: "Geverifieerd", by: "door", createdIn: "Gemaakt in 2 minuten met" },
-    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", mostRecent: "最新", highestRated: "高評価順", lowestRated: "低評価順", verified: "認証済み", by: "作成者", createdIn: "2分で作成" }
+    en: { whatsIncluded: "What's included", reviews: "reviews", mostRecent: "Most recent", highestRated: "Highest rated", lowestRated: "Lowest rated", verified: "Verified", createdIn: "Created in 2 minutes with" },
+    fr: { whatsIncluded: "Ce qui est inclus", reviews: "avis", mostRecent: "Plus récents", highestRated: "Meilleures notes", lowestRated: "Moins bonnes notes", verified: "Vérifié", createdIn: "Créé en 2 minutes avec" },
+    es: { whatsIncluded: "Qué incluye", reviews: "reseñas", mostRecent: "Más recientes", highestRated: "Mejor valorados", lowestRated: "Peor valorados", verified: "Verificado", createdIn: "Creado en 2 minutos con" },
+    de: { whatsIncluded: "Was enthalten ist", reviews: "Bewertungen", mostRecent: "Neueste", highestRated: "Beste Bewertung", lowestRated: "Schlechteste Bewertung", verified: "Verifiziert", createdIn: "Erstellt in 2 Minuten mit" },
+    it: { whatsIncluded: "Cosa è incluso", reviews: "recensioni", mostRecent: "Più recenti", highestRated: "Voto più alto", lowestRated: "Voto più basso", verified: "Verificato", createdIn: "Creato in 2 minuti con" },
+    pt: { whatsIncluded: "O que está incluído", reviews: "avaliações", mostRecent: "Mais recentes", highestRated: "Melhor avaliados", lowestRated: "Pior avaliados", verified: "Verificado", createdIn: "Criado em 2 minutos com" },
+    nl: { whatsIncluded: "Wat is inbegrepen", reviews: "beoordelingen", mostRecent: "Meest recent", highestRated: "Hoogst beoordeeld", lowestRated: "Laagst beoordeeld", verified: "Geverifieerd", createdIn: "Gemaakt in 2 minuten met" },
+    ja: { whatsIncluded: "含まれるもの", reviews: "レビュー", mostRecent: "最新", highestRated: "高評価順", lowestRated: "低評価順", verified: "認証済み", createdIn: "2分で作成" }
   };
   
   function detectLanguage() {
@@ -132,17 +132,17 @@
       }
 
       // Build structure with new order:
-      // 1. Reviews badge (top, if reviews exist)
-      // 2. H1 title
-      // 3. Seller block (avatar + name)
+      // 1. H1 title
+      // 2. Seller block (avatar + name)
+      // 3. Reviews badge (if reviews exist)
       // 4. HTML content
       // 5. What's included
       // 6. Reviews section
       // 7. MySellKit footer
       wrapper.innerHTML = '<div class="mysellkit-page-container">' +
-        '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
         '<h1 class="msk-page-title" id="msk-page-title"></h1>' +
         '<div class="msk-seller-block" id="msk-seller-block"></div>' +
+        '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
         '<div class="mysellkit-content" id="mysellkit-content"></div>' +
         '<div class="msk-whats-included-section" id="msk-whats-included"></div>' +
         '<div class="msk-reviews-section" id="msk-reviews"></div>' +
@@ -175,7 +175,30 @@
         }
       }
 
-      // 1. Reviews Badge (only if reviews exist)
+      // 1. Page Title (H1)
+      if (pageTitleEl && isValidValue(config.pageTitle)) {
+        pageTitleEl.textContent = config.pageTitle;
+        pageTitleEl.style.display = 'block';
+        log.info('Page title:', config.pageTitle);
+      } else if (pageTitleEl) {
+        pageTitleEl.style.display = 'none';
+      }
+
+      // 2. Seller Block (avatar + name)
+      if (sellerBlockEl && isValidValue(config.sellerName)) {
+        var sellerHtml = '';
+        if (isValidValue(config.sellerAvatar)) {
+          sellerHtml += '<img class="msk-seller-avatar" src="' + config.sellerAvatar + '" alt="' + config.sellerName + '" />';
+        }
+        sellerHtml += '<span class="msk-seller-name">' + config.sellerName + '</span>';
+        sellerBlockEl.innerHTML = sellerHtml;
+        sellerBlockEl.style.display = 'flex';
+        log.info('Seller block:', config.sellerName);
+      } else if (sellerBlockEl) {
+        sellerBlockEl.style.display = 'none';
+      }
+
+      // 3. Reviews Badge (only if reviews exist)
       if (reviewsBadgeEl && reviewsCount > 0) {
         var formattedRating = reviewsAverage % 1 === 0 ? reviewsAverage.toFixed(0) : reviewsAverage.toFixed(1);
         var starSvg = '<svg class="msk-reviews-badge-star" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0l1.76 3.77 3.99.54-2.92 2.77.72 3.92L6 9.13 2.45 11l.72-3.92L.25 4.31l3.99-.54z"/></svg>';
@@ -192,29 +215,6 @@
         log.info('Reviews badge: ' + formattedRating + ' / ' + reviewsCount + ' reviews');
       }
 
-      // 2. Page Title (H1)
-      if (pageTitleEl && isValidValue(config.pageTitle)) {
-        pageTitleEl.textContent = config.pageTitle;
-        pageTitleEl.style.display = 'block';
-        log.info('Page title:', config.pageTitle);
-      } else if (pageTitleEl) {
-        pageTitleEl.style.display = 'none';
-      }
-
-      // 3. Seller Block (avatar + "by [Name]")
-      if (sellerBlockEl && isValidValue(config.sellerName)) {
-        var sellerHtml = '';
-        if (isValidValue(config.sellerAvatar)) {
-          sellerHtml += '<img class="msk-seller-avatar" src="' + config.sellerAvatar + '" alt="' + config.sellerName + '" />';
-        }
-        sellerHtml += '<span class="msk-seller-text">' + t.by + ' <span class="msk-seller-name">' + config.sellerName + '</span></span>';
-        sellerBlockEl.innerHTML = sellerHtml;
-        sellerBlockEl.style.display = 'flex';
-        log.info('Seller block:', config.sellerName);
-      } else if (sellerBlockEl) {
-        sellerBlockEl.style.display = 'none';
-      }
-
       // 4. HTML Content - decode base64
       if (contentEl && isValidValue(config.htmlContent)) {
         log.info('Processing HTML content');
@@ -226,19 +226,20 @@
         }
       }
       
-      // What's Included - uses translation automatically
+      // What's Included - uses primary color for icon background
       if (whatsIncludedEl && isValidValue(config.filesList)) {
         var files = config.filesList.split('|||').filter(function(f) { return f.trim(); });
         if (files.length > 0) {
           log.info('Building What\'s Included with', files.length, 'files');
+          var iconBgColor = config.primaryColor || '#2563eb';
           var filesHtml = files.map(function(file) {
             var fileName = file.trim();
             var lastDot = fileName.lastIndexOf('.');
             var name = lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
             var ext = lastDot > 0 ? fileName.substring(lastDot + 1).toUpperCase() : '';
-            return '<div class="msk-file-block"><div class="msk-file-icon-wrapper"><svg class="msk-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div></div>';
+            return '<div class="msk-file-item"><div class="msk-file-icon-box" style="background-color: ' + iconBgColor + '"><svg class="msk-file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="msk-file-info"><span class="msk-file-name">' + name + '</span>' + (ext ? '<span class="msk-file-ext">' + ext + '</span>' : '') + '</div></div>';
           }).join('');
-          whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + t.whatsIncluded + '</h2><div class="msk-files-grid">' + filesHtml + '</div>';
+          whatsIncludedEl.innerHTML = '<h2 class="mysellkit-section-title">' + t.whatsIncluded + '</h2><div class="msk-files-list">' + filesHtml + '</div>';
         }
       }
       
