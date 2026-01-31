@@ -369,22 +369,6 @@
   min-height: 54px;
 }
 
-/* Seller avatar */
-.msk-seller-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: none;
-  flex-shrink: 0;
-}
-
-.msk-seller-info-text {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-}
-
 .msk-close-button {
   background: none;
   border: none;
@@ -434,8 +418,8 @@
   text-decoration: line-through;
 }
 
-/* Desktop seller name with "Pay" prefix */
-.msk-seller-name {
+/* Desktop product header with "Access to" prefix */
+.msk-product-header {
   font-size: 14px;
   font-weight: 500;
   color: #1a1a1a;
@@ -444,29 +428,24 @@
   display: none;
 }
 
-.msk-seller-name .msk-paid-to {
-  color: #b0b0b0;
+.msk-product-header.msk-visible {
+  display: block;
+}
+
+.msk-product-header-text {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.msk-product-header .msk-access-to {
+  color: #6b7280;
   font-weight: 400;
 }
 
-.msk-seller-name .msk-seller-value {
+.msk-product-header .msk-product-name {
   color: #0570DE;
   font-weight: 500;
-}
-
-.msk-seller-name .msk-seller-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: none;
-  flex-shrink: 0;
-}
-
-.msk-seller-name.msk-has-avatar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .msk-express-section {
@@ -738,11 +717,10 @@
 
     <!-- DESKTOP -->
     <div class="msk-desktop" id="msk-desktop">
-      <div class="msk-seller-name" id="msk-seller-desktop">
-        <img class="msk-seller-avatar" id="msk-seller-avatar-desktop" src="" alt="" />
-        <div class="msk-seller-info-text">
-          <span class="msk-paid-to" id="msk-paid-to-desktop"></span>
-          <span class="msk-seller-value" id="msk-seller-value-desktop"></span>
+      <div class="msk-product-header" id="msk-product-desktop">
+        <div class="msk-product-header-text">
+          <span class="msk-access-to" id="msk-access-to-desktop"></span>
+          <span class="msk-product-name" id="msk-product-name-desktop"></span>
         </div>
       </div>
       <div class="msk-payment-amount" id="msk-price-desktop"></div>
@@ -1018,32 +996,9 @@
     if (stripeNotReadyButtonText) stripeNotReadyButtonText.textContent = t.goToSettings;
   }
   
-  function updateSellerName(sellerName, sellerAvatar) {
-    // Desktop only - Keep "Pay seller_name" style
-    const paidToDesktop = $('msk-paid-to-desktop');
-    const sellerValueDesktop = $('msk-seller-value-desktop');
-    const sellerDesktop = $('msk-seller-desktop');
-    const avatarDesktop = $('msk-seller-avatar-desktop');
-
-    if (paidToDesktop && sellerValueDesktop && sellerDesktop && sellerName) {
-      paidToDesktop.textContent = t.pay + ' ';
-      sellerValueDesktop.textContent = sellerName;
-
-      // Handle avatar
-      if (avatarDesktop && sellerAvatar) {
-        avatarDesktop.src = sellerAvatar;
-        avatarDesktop.style.display = 'block';
-        sellerDesktop.classList.add('msk-has-avatar');
-        sellerDesktop.style.display = 'flex';
-      } else {
-        if (avatarDesktop) avatarDesktop.style.display = 'none';
-        sellerDesktop.style.display = 'block';
-      }
-    }
-  }
-
-  // Update mobile expanded header with product name
-  function updateExpandedHeader(productName) {
+  // Update product header with "Access to [product]" - both mobile expanded and desktop
+  function updateProductHeader(productName) {
+    // Mobile expanded
     const expandedProduct = $('msk-expanded-product');
     const expandedAccessTo = $('msk-expanded-access-to');
     const expandedProductName = $('msk-expanded-product-name');
@@ -1052,6 +1007,17 @@
       expandedAccessTo.textContent = t.accessTo + ' ';
       expandedProductName.textContent = productName;
       expandedProduct.classList.add('msk-visible');
+    }
+
+    // Desktop
+    const productDesktop = $('msk-product-desktop');
+    const accessToDesktop = $('msk-access-to-desktop');
+    const productNameDesktop = $('msk-product-name-desktop');
+
+    if (productDesktop && accessToDesktop && productNameDesktop && productName) {
+      accessToDesktop.textContent = t.accessTo + ' ';
+      productNameDesktop.textContent = productName;
+      productDesktop.classList.add('msk-visible');
     }
   }
 
@@ -1378,11 +1344,8 @@
     if (priceCompact) priceCompact.innerHTML = priceHTML;
     if (priceDesktop) priceDesktop.innerHTML = priceHTML;
 
-    // Update seller name with avatar and "Pay" prefix (desktop only)
-    updateSellerName(sellerName, sellerAvatar);
-
-    // Update mobile expanded header with product name ("Access to [product]")
-    updateExpandedHeader(productName);
+    // Update product header with "Access to [product]" (mobile expanded + desktop)
+    updateProductHeader(productName);
 
     // Update mobile compact left side (seller info or social proof)
     updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage);
