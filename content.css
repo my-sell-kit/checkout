@@ -19,13 +19,13 @@
   max-width: 680px;
   margin: 0 auto;
   width: 100%;
-  padding: 88px 88px 32px 88px;
+  padding: 48px 48px 32px 48px;
   box-sizing: border-box;
 }
 
 @media (max-width: 991px) {
   .msk-content-wrapper {
-    padding: 24px 24px 16px 24px;
+    padding: 28px 28px 16px 28px;
   }
 }
 
@@ -123,13 +123,13 @@
 .msk-seller-block {
   display: none;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .msk-seller-avatar {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -146,13 +146,13 @@
 .msk-footer {
   max-width: 680px;
   margin: 0 auto;
-  padding: 48px 88px 24px 88px;
+  padding: 48px 48px 24px 48px;
   box-sizing: border-box;
 }
 
 @media (max-width: 991px) {
   .msk-footer {
-    padding: 32px 24px 16px 24px;
+    padding: 28px 28px 16px 28px;
   }
 }
 
@@ -500,13 +500,13 @@
 .msk-reviews-inner {
   max-width: 680px;
   margin: 0 auto;
-  padding: 0 88px;
+  padding: 0 48px;
   box-sizing: border-box;
 }
 
 @media (max-width: 991px) {
   .msk-reviews-inner {
-    padding: 0 24px;
+    padding: 0 28px;
   }
 }
 
@@ -537,7 +537,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .msk-rating-row:last-child {
@@ -664,13 +664,13 @@
 .msk-review-content {
   max-width: 680px;
   margin: 0 auto;
-  padding: 24px 88px;
+  padding: 24px 48px;
   box-sizing: border-box;
 }
 
 @media (max-width: 991px) {
   .msk-review-content {
-    padding: 20px 24px;
+    padding: 20px 28px;
   }
 }
 
