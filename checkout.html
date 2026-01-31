@@ -181,82 +181,6 @@
   flex-shrink: 0;
 }
 
-/* Compact seller info (when no reviews) */
-.msk-compact-seller {
-  display: none;
-  align-items: center;
-  gap: 10px;
-}
-
-.msk-compact-seller.msk-visible {
-  display: flex;
-}
-
-.msk-compact-seller-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.msk-compact-seller-name {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1a1a1a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Social proof (when reviews exist) - Airbnb style */
-.msk-compact-social-proof {
-  display: none;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 6px 10px;
-  background: #F7F7F7;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.msk-compact-social-proof:hover {
-  background: #EFEFEF;
-}
-
-.msk-compact-social-proof.msk-visible {
-  display: flex;
-}
-
-.msk-compact-social-proof-star {
-  width: 14px;
-  height: 14px;
-  color: #000000;
-}
-
-.msk-compact-social-proof-rating {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-.msk-compact-social-proof-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: #717171;
-}
-
-.msk-compact-social-proof-count {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #717171;
-}
-
 .msk-compact-price {
   font-size: 24px;
   font-weight: 600;
@@ -273,6 +197,23 @@
   font-weight: 500;
   color: #b0b0b0;
   text-decoration: line-through;
+}
+
+/* Savings badge */
+.msk-savings-badge {
+  display: none;
+  align-items: center;
+  padding: 6px 10px;
+  background: #ECFDF5;
+  border-radius: 8px;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.msk-savings-badge.msk-visible {
+  display: flex;
 }
 
 .msk-compact-cta-button {
@@ -655,23 +596,10 @@
     <div class="msk-mobile-compact" id="msk-mobile-compact">
       <div class="msk-compact-header">
         <div class="msk-compact-left">
-          <!-- Seller info (shown when no reviews) -->
-          <div class="msk-compact-seller" id="msk-compact-seller">
-            <img class="msk-compact-seller-avatar" id="msk-compact-seller-avatar" src="" alt="" />
-            <span class="msk-compact-seller-name" id="msk-compact-seller-name"></span>
-          </div>
-          <!-- Social proof (shown when reviews exist) -->
-          <div class="msk-compact-social-proof" id="msk-compact-social-proof">
-            <svg class="msk-compact-social-proof-star" viewBox="0 0 12 12" fill="currentColor">
-              <path d="M6 0l1.76 3.77 3.99.54-2.92 2.77.72 3.92L6 9.13 2.45 11l.72-3.92L.25 4.31l3.99-.54z"/>
-            </svg>
-            <span class="msk-compact-social-proof-rating" id="msk-compact-rating"></span>
-            <span class="msk-compact-social-proof-dot"></span>
-            <span class="msk-compact-social-proof-count" id="msk-compact-reviews-count"></span>
-          </div>
+          <div class="msk-compact-price" id="msk-price-compact"></div>
         </div>
         <div class="msk-compact-right">
-          <div class="msk-compact-price" id="msk-price-compact"></div>
+          <div class="msk-savings-badge" id="msk-savings-badge"></div>
         </div>
       </div>
       <button class="msk-compact-cta-button" id="msk-compact-cta-button">
@@ -783,7 +711,8 @@
       goToSettings: 'Go to settings',
       ctaButton: 'Get instant access',
       reviews: 'reviews',
-      accessTo: 'Access'
+      accessTo: 'Access',
+      save: 'Save'
     },
     fr: {
       orPayWithCard: 'Ou payer par carte',
@@ -799,7 +728,8 @@
       goToSettings: 'Accéder aux paramètres',
       ctaButton: 'Obtenir maintenant',
       reviews: 'avis',
-      accessTo: 'Accéder à'
+      accessTo: 'Accéder à',
+      save: 'Économisez'
     },
     es: {
       orPayWithCard: 'O pagar con tarjeta',
@@ -815,7 +745,8 @@
       goToSettings: 'Ir a configuración',
       ctaButton: 'Obtener acceso',
       reviews: 'reseñas',
-      accessTo: 'Acceder a'
+      accessTo: 'Acceder a',
+      save: 'Ahorra'
     },
     de: {
       orPayWithCard: 'Oder mit Karte zahlen',
@@ -831,7 +762,8 @@
       goToSettings: 'Zu den Einstellungen',
       ctaButton: 'Sofort erhalten',
       reviews: 'Bewertungen',
-      accessTo: 'Zugang zu'
+      accessTo: 'Zugang zu',
+      save: 'Sparen Sie'
     },
     it: {
       orPayWithCard: 'Oppure paga con carta',
@@ -847,7 +779,8 @@
       goToSettings: 'Vai alle impostazioni',
       ctaButton: 'Ottieni accesso',
       reviews: 'recensioni',
-      accessTo: 'Accedi a'
+      accessTo: 'Accedi a',
+      save: 'Risparmia'
     },
     pt: {
       orPayWithCard: 'Ou pagar com cartão',
@@ -863,7 +796,8 @@
       goToSettings: 'Ir para configurações',
       ctaButton: 'Obter acesso',
       reviews: 'avaliações',
-      accessTo: 'Acessar'
+      accessTo: 'Acessar',
+      save: 'Economize'
     },
     nl: {
       orPayWithCard: 'Of betaal met kaart',
@@ -879,7 +813,8 @@
       goToSettings: 'Ga naar instellingen',
       ctaButton: 'Direct toegang',
       reviews: 'beoordelingen',
-      accessTo: 'Toegang tot'
+      accessTo: 'Toegang tot',
+      save: 'Bespaar'
     },
     ja: {
       orPayWithCard: 'またはカードで支払う',
@@ -895,7 +830,8 @@
       goToSettings: '設定へ移動',
       ctaButton: '今すぐ入手',
       reviews: 'レビュー',
-      accessTo: 'アクセス'
+      accessTo: 'アクセス',
+      save: '節約'
     }
   };
   
@@ -1049,65 +985,33 @@
     }
   }
 
-  // Update mobile compact left side: seller info OR social proof
-  function updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage) {
-    const compactSeller = $('msk-compact-seller');
-    const compactSellerAvatar = $('msk-compact-seller-avatar');
-    const compactSellerName = $('msk-compact-seller-name');
-    const compactSocialProof = $('msk-compact-social-proof');
-    const compactRating = $('msk-compact-rating');
-    const compactReviewsCount = $('msk-compact-reviews-count');
+  // Update mobile compact savings badge
+  function updateSavingsBadge(amountRaw, priceBeforeRaw) {
+    const savingsBadge = $('msk-savings-badge');
+    if (!savingsBadge) return;
 
-    // Check if we have reviews
-    const hasReviews = reviewsCount && reviewsCount > 0;
+    // Extract numeric values from formatted prices (e.g., "$29.99" -> 29.99, "€29,99" -> 29.99)
+    const parsePrice = (priceStr) => {
+      if (!priceStr) return 0;
+      // Remove currency symbols and thousands separators, normalize decimal separator
+      const cleaned = priceStr.replace(/[^0-9.,]/g, '').replace(/,(\d{2})$/, '.$1').replace(/,/g, '');
+      return parseFloat(cleaned) || 0;
+    };
 
-    if (hasReviews && compactSocialProof) {
-      // Show social proof
-      if (compactSeller) compactSeller.classList.remove('msk-visible');
-      compactSocialProof.classList.add('msk-visible');
+    const currentPrice = parsePrice(amountRaw);
+    const originalPrice = parsePrice(priceBeforeRaw);
 
-      // Format rating (show 1 decimal if needed, e.g., 4.8)
-      const rating = parseFloat(reviewsAverage) || 5;
-      const formattedRating = rating % 1 === 0 ? rating.toFixed(0) : rating.toFixed(1);
-      if (compactRating) compactRating.textContent = formattedRating;
-      if (compactReviewsCount) compactReviewsCount.textContent = reviewsCount + ' ' + t.reviews;
-
-      // Add click handler to scroll to reviews section
-      compactSocialProof.onclick = function() {
-        scrollToReviews();
-      };
-
-      log.info('Mobile compact: showing social proof -', reviewsCount, 'reviews, avg:', formattedRating);
-    } else if (sellerName && sellerAvatar && compactSeller) {
-      // Show seller info (only if we have avatar)
-      if (compactSocialProof) compactSocialProof.classList.remove('msk-visible');
-      compactSeller.classList.add('msk-visible');
-
-      if (compactSellerAvatar) compactSellerAvatar.src = sellerAvatar;
-      if (compactSellerName) compactSellerName.textContent = sellerName;
-
-      log.info('Mobile compact: showing seller info -', sellerName);
-    } else {
-      // Hide both if no data
-      if (compactSeller) compactSeller.classList.remove('msk-visible');
-      if (compactSocialProof) compactSocialProof.classList.remove('msk-visible');
-      log.info('Mobile compact: no seller/reviews data, hiding left side');
+    if (originalPrice > 0 && currentPrice > 0 && originalPrice > currentPrice) {
+      const savingsPercent = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+      if (savingsPercent > 0) {
+        savingsBadge.textContent = t.save + ' ' + savingsPercent + '%';
+        savingsBadge.classList.add('msk-visible');
+        log.info('Savings badge: ' + savingsPercent + '%');
+        return;
+      }
     }
-  }
 
-  // Scroll to reviews section
-  function scrollToReviews() {
-    // Try to find the reviews section in the content area
-    const reviewsSection = document.querySelector('.msk-reviews-section') ||
-                          document.getElementById('msk-reviews') ||
-                          document.querySelector('[id*="reviews"]');
-
-    if (reviewsSection) {
-      reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      log.info('Scrolled to reviews section');
-    } else {
-      log.warn('Reviews section not found for scroll');
-    }
+    savingsBadge.classList.remove('msk-visible');
   }
   
   function showStripeNotReady(settingsUrl) {
@@ -1329,11 +1233,7 @@
     
     const amount = detail.amount || window.MySellKit?.amount || '';
     const priceBefore = detail.priceBefore || window.MySellKit?.priceBefore || '';
-    const sellerName = detail.sellerName || window.MySellKit?.sellerName || '';
-    const sellerAvatar = detail.sellerAvatar || window.MySellKit?.sellerAvatar || '';
     const productName = detail.productName || window.MySellKit?.productName || '';
-    const reviewsCount = detail.reviewsCount || window.MySellKit?.reviewsCount || 0;
-    const reviewsAverage = detail.reviewsAverage || window.MySellKit?.reviewsAverage || 0;
     const primaryColor = detail.primaryColor || window.MySellKit?.primaryColor || null;
 
     let priceHTML = `<span>${amount}</span>`;
@@ -1347,8 +1247,8 @@
     // Update product header with "Access to [product]" (mobile expanded + desktop)
     updateProductHeader(productName);
 
-    // Update mobile compact left side (seller info or social proof)
-    updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage);
+    // Update savings badge in mobile compact (shows "Save X%" if discount)
+    updateSavingsBadge(amount, priceBefore);
 
     // Apply primary color to CTA button if provided
     if (primaryColor) {

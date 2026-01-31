@@ -10,6 +10,132 @@
   width: 100%;
 }
 
+/* REVIEWS BADGE (top of page) */
+.msk-reviews-badge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 12px;
+  background: #F7F7F7;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  width: fit-content;
+  margin-bottom: 16px;
+}
+
+.msk-reviews-badge:hover {
+  background: #EFEFEF;
+}
+
+.msk-reviews-badge-star {
+  width: 14px;
+  height: 14px;
+  color: #000000;
+}
+
+.msk-reviews-badge-rating {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.msk-reviews-badge-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #717171;
+}
+
+.msk-reviews-badge-count {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #717171;
+}
+
+/* PAGE TITLE (H1) */
+.msk-page-title {
+  display: none;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0 0 12px 0;
+}
+
+/* SELLER BLOCK */
+.msk-seller-block {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.msk-seller-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.msk-seller-text {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #717171;
+}
+
+.msk-seller-name {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* MYSELLKIT FOOTER */
+.msk-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 48px;
+  padding: 24px 0;
+}
+
+.msk-footer-text {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #717171;
+}
+
+.msk-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.msk-footer-link:hover {
+  opacity: 0.7;
+}
+
+.msk-footer-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.msk-footer-brand {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
 /* HTML CONTENT SECTION */
 .mysellkit-content {
   display: block;
