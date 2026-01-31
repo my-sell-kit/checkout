@@ -1567,21 +1567,10 @@
     const container = $('msk-container');
     if (!container) return;
 
-    // Get the height of the visible checkout element (compact or expanded)
-    const compact = $('msk-mobile-compact');
-    const expanded = $('msk-mobile-expanded');
+    // Always get the full height of the checkout container (works for both compact and expanded)
+    const checkoutHeight = container.offsetHeight;
 
-    let checkoutHeight = 0;
-
-    if (isExpanded && expanded && !expanded.classList.contains('msk-hidden')) {
-      // In expanded mode, the checkout takes full screen - no padding needed
-      checkoutHeight = 0;
-    } else if (compact && compact.style.display !== 'none') {
-      // In compact mode, get the height of the compact section + container padding
-      checkoutHeight = container.offsetHeight;
-    }
-
-    log.info('Mobile checkout height:', checkoutHeight);
+    log.info('Mobile checkout height:', checkoutHeight, 'isExpanded:', isExpanded);
 
     // Dispatch event with the height
     window.dispatchEvent(new CustomEvent('mysellkit:checkout-height', {
