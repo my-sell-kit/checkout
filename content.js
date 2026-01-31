@@ -172,22 +172,20 @@
       }
 
       // Build structure with new order:
-      // 1. H1 title
-      // 2. Seller block (avatar + name)
-      // 3. Badges row (reviews badge + files badge)
-      // 4. HTML content
-      // 5. What's included
-      // 6. Reviews section
-      // 7. MySellKit footer
+      // 1. Content wrapper (padded): H1, Seller, Badges, HTML, What's included
+      // 2. Reviews section (full-width with internal padding)
+      // 3. Footer (padded)
       wrapper.innerHTML = '<div class="mysellkit-page-container">' +
-        '<h1 class="msk-page-title" id="msk-page-title"></h1>' +
-        '<div class="msk-seller-block" id="msk-seller-block"></div>' +
-        '<div class="msk-badges-row" id="msk-badges-row">' +
-          '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
-          '<div class="msk-files-badge" id="msk-files-badge"></div>' +
+        '<div class="msk-content-wrapper">' +
+          '<h1 class="msk-page-title" id="msk-page-title"></h1>' +
+          '<div class="msk-seller-block" id="msk-seller-block"></div>' +
+          '<div class="msk-badges-row" id="msk-badges-row">' +
+            '<div class="msk-reviews-badge" id="msk-reviews-badge"></div>' +
+            '<div class="msk-files-badge" id="msk-files-badge"></div>' +
+          '</div>' +
+          '<div class="mysellkit-content" id="mysellkit-content"></div>' +
+          '<div class="msk-whats-included-section" id="msk-whats-included"></div>' +
         '</div>' +
-        '<div class="mysellkit-content" id="mysellkit-content"></div>' +
-        '<div class="msk-whats-included-section" id="msk-whats-included"></div>' +
         '<div class="msk-reviews-section" id="msk-reviews"></div>' +
         '<div class="msk-footer" id="msk-footer"></div>' +
         '</div>';
@@ -325,13 +323,36 @@
         // Store original reviews for sorting
         var originalReviews = reviewsData.slice();
 
+        // Calculate rating distribution (5, 4, 3, 2, 1)
+        var ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+        reviewsData.forEach(function(review) {
+          var rating = Math.min(5, Math.max(1, review.rating));
+          ratingCounts[rating]++;
+        });
+
+        // Build rating distribution bars
+        var ratingDistributionHtml = '<div class="msk-rating-distribution">';
+        for (var star = 5; star >= 1; star--) {
+          var count = ratingCounts[star];
+          var percentage = reviewsData.length > 0 ? (count / reviewsData.length) * 100 : 0;
+          ratingDistributionHtml += '<div class="msk-rating-row">' +
+            '<span class="msk-rating-label">' + star + '</span>' +
+            '<div class="msk-rating-bar-bg"><div class="msk-rating-bar-fill" style="width: ' + percentage + '%"></div></div>' +
+            '</div>';
+        }
+        ratingDistributionHtml += '</div>';
+
         function buildReviewHtml(review, index) {
           var initials = getInitials(review.name);
           var relativeDate = formatRelativeDate(review.date);
           var starsHtml = generateStars(review.rating);
           var verifiedBadge = review.verified ? '<span class="msk-review-verified"><svg class="msk-review-verified-icon" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6 6-2.69 6-6S9.31 0 6 0zm-.75 9L2.5 6.25l1.06-1.06 1.69 1.69 3.69-3.69L10 4.25 5.25 9z"/></svg>' + t.verified + '</span>' : '';
           var messageHtml = review.message ? '<p class="msk-review-message">' + review.message + '</p>' : '';
-          return '<div class="msk-review-item" data-review-index="' + index + '" data-rating="' + review.rating + '" data-date="' + review.date + '"><div class="msk-review-header"><div class="msk-review-avatar">' + initials + '</div><div class="msk-review-author-info"><div class="msk-review-author-row"><span class="msk-review-author">' + review.name + '</span>' + verifiedBadge + '</div><div class="msk-review-meta"><div class="msk-review-stars">' + starsHtml + '</div>' + (relativeDate ? '<span class="msk-review-dot"></span><span class="msk-review-date">' + relativeDate + '</span>' : '') + '</div></div></div>' + messageHtml + '</div>';
+          return '<div class="msk-review-item" data-review-index="' + index + '" data-rating="' + review.rating + '" data-date="' + review.date + '">' +
+            '<div class="msk-review-content">' +
+              '<div class="msk-review-header"><div class="msk-review-avatar">' + initials + '</div><div class="msk-review-author-info"><div class="msk-review-author-row"><span class="msk-review-author">' + review.name + '</span>' + verifiedBadge + '</div><div class="msk-review-meta"><div class="msk-review-stars">' + starsHtml + '</div>' + (relativeDate ? '<span class="msk-review-dot"></span><span class="msk-review-date">' + relativeDate + '</span>' : '') + '</div></div></div>' + messageHtml +
+            '</div>' +
+          '</div>';
         }
 
         var reviewsHtml = reviewsData.map(function(review, index) {
@@ -356,7 +377,12 @@
           }).join('') +
           '</div></div>';
 
-        reviewsEl.innerHTML = '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviewsData.length + ' ' + t.reviews + '</h2>' + sortDropdownHtml + '</div><div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
+        // Build reviews section with inner wrapper for padding
+        reviewsEl.innerHTML = '<div class="msk-reviews-inner">' +
+          '<div class="msk-reviews-header"><h2 class="msk-reviews-title">' + reviewsData.length + ' ' + t.reviews + '</h2>' + sortDropdownHtml + '</div>' +
+          ratingDistributionHtml +
+          '</div>' +
+          '<div class="msk-reviews-list" id="msk-reviews-list">' + reviewsHtml + '</div>';
 
         // Sort functionality
         setTimeout(function() {
@@ -418,11 +444,13 @@
 
       // 7. MySellKit Footer (always displayed)
       if (footerEl) {
-        footerEl.innerHTML = '<span class="msk-footer-text">' + t.createdIn + '</span>' +
+        footerEl.innerHTML = '<div class="msk-footer-inner">' +
+          '<span class="msk-footer-text">' + t.createdIn + '</span>' +
           '<a class="msk-footer-link" href="https://mysellkit.com" target="_blank" rel="noopener">' +
           MSK_LOGO_SVG +
           '<span class="msk-footer-brand">MySellKit</span>' +
-          '</a>';
+          '</a>' +
+          '</div>';
         log.info('Footer rendered');
       }
 
