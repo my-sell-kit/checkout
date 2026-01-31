@@ -402,7 +402,7 @@
       return;
     }
 
-    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language, reviews_count, reviews_average } = paymentData;
+    const { clientSecret, amount, currency, price_before, product_name, seller_name, seller_avatar, stripeAccount, language, reviews_count, reviews_average, primary_color } = paymentData;
 
     const stripeOptions = stripeAccount ? { stripeAccount } : {};
     // Add locale to Stripe options if language is provided
@@ -504,6 +504,7 @@
     window.MySellKit.language = language || null;
     window.MySellKit.reviewsCount = reviews_count || 0;
     window.MySellKit.reviewsAverage = reviews_average || 0;
+    window.MySellKit.primaryColor = primary_color || null;
     
     log.timeEnd('Stripe Init');
     log.groupEnd();
@@ -519,7 +520,8 @@
         sellerAvatar: window.MySellKit.sellerAvatar,
         language: window.MySellKit.language,
         reviewsCount: window.MySellKit.reviewsCount,
-        reviewsAverage: window.MySellKit.reviewsAverage
+        reviewsAverage: window.MySellKit.reviewsAverage,
+        primaryColor: window.MySellKit.primaryColor
       }
     }));
   }

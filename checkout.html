@@ -325,40 +325,39 @@
   padding-top: 0;
 }
 
-.msk-expanded-seller {
+.msk-expanded-product {
   display: none;
   align-items: center;
-  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
-.msk-expanded-seller.msk-visible {
+.msk-expanded-product.msk-visible {
   display: flex;
 }
 
-.msk-expanded-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.msk-expanded-seller-text {
+.msk-expanded-product-text {
   display: flex;
   flex-direction: row;
   gap: 4px;
   font-size: 14px;
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 
-.msk-expanded-paid-to {
+.msk-expanded-access-to {
   color: #6b7280;
   font-weight: 400;
+  flex-shrink: 0;
 }
 
-.msk-expanded-seller-name {
+.msk-expanded-product-name {
   color: #0570DE;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .msk-express-section-mobile {
@@ -704,11 +703,10 @@
     <!-- MOBILE EXPANDED -->
     <div class="msk-mobile-expanded msk-hidden" id="msk-mobile-expanded">
       <div class="msk-expanded-header">
-        <div class="msk-expanded-seller" id="msk-expanded-seller">
-          <img class="msk-expanded-avatar" id="msk-expanded-avatar" src="" alt="" />
-          <div class="msk-expanded-seller-text">
-            <span class="msk-expanded-paid-to" id="msk-expanded-paid-to"></span>
-            <span class="msk-expanded-seller-name" id="msk-expanded-seller-name"></span>
+        <div class="msk-expanded-product" id="msk-expanded-product">
+          <div class="msk-expanded-product-text">
+            <span class="msk-expanded-access-to" id="msk-expanded-access-to"></span>
+            <span class="msk-expanded-product-name" id="msk-expanded-product-name"></span>
           </div>
         </div>
         <button class="msk-close-button" id="msk-close-button">×</button>
@@ -806,7 +804,8 @@
       stripeNotReadySellerMessage: "You haven't finished setting up your payment account yet.",
       goToSettings: 'Go to settings',
       ctaButton: 'Get instant access',
-      reviews: 'reviews'
+      reviews: 'reviews',
+      accessTo: 'Access'
     },
     fr: {
       orPayWithCard: 'Ou payer par carte',
@@ -821,7 +820,8 @@
       stripeNotReadySellerMessage: "Vous n'avez pas encore finalisé la configuration de votre compte de paiement.",
       goToSettings: 'Accéder aux paramètres',
       ctaButton: 'Obtenir maintenant',
-      reviews: 'avis'
+      reviews: 'avis',
+      accessTo: 'Accéder à'
     },
     es: {
       orPayWithCard: 'O pagar con tarjeta',
@@ -836,7 +836,8 @@
       stripeNotReadySellerMessage: 'Aún no has terminado de configurar tu cuenta de pagos.',
       goToSettings: 'Ir a configuración',
       ctaButton: 'Obtener acceso',
-      reviews: 'reseñas'
+      reviews: 'reseñas',
+      accessTo: 'Acceder a'
     },
     de: {
       orPayWithCard: 'Oder mit Karte zahlen',
@@ -851,7 +852,8 @@
       stripeNotReadySellerMessage: 'Sie haben die Einrichtung Ihres Zahlungskontos noch nicht abgeschlossen.',
       goToSettings: 'Zu den Einstellungen',
       ctaButton: 'Sofort erhalten',
-      reviews: 'Bewertungen'
+      reviews: 'Bewertungen',
+      accessTo: 'Zugang zu'
     },
     it: {
       orPayWithCard: 'Oppure paga con carta',
@@ -866,7 +868,8 @@
       stripeNotReadySellerMessage: 'Non hai ancora completato la configurazione del tuo account di pagamento.',
       goToSettings: 'Vai alle impostazioni',
       ctaButton: 'Ottieni accesso',
-      reviews: 'recensioni'
+      reviews: 'recensioni',
+      accessTo: 'Accedi a'
     },
     pt: {
       orPayWithCard: 'Ou pagar com cartão',
@@ -881,7 +884,8 @@
       stripeNotReadySellerMessage: 'Você ainda não terminou de configurar sua conta de pagamento.',
       goToSettings: 'Ir para configurações',
       ctaButton: 'Obter acesso',
-      reviews: 'avaliações'
+      reviews: 'avaliações',
+      accessTo: 'Acessar'
     },
     nl: {
       orPayWithCard: 'Of betaal met kaart',
@@ -896,7 +900,8 @@
       stripeNotReadySellerMessage: 'U heeft de configuratie van uw betaalrekening nog niet voltooid.',
       goToSettings: 'Ga naar instellingen',
       ctaButton: 'Direct toegang',
-      reviews: 'beoordelingen'
+      reviews: 'beoordelingen',
+      accessTo: 'Toegang tot'
     },
     ja: {
       orPayWithCard: 'またはカードで支払う',
@@ -911,7 +916,8 @@
       stripeNotReadySellerMessage: '支払いアカウントの設定がまだ完了していません。',
       goToSettings: '設定へ移動',
       ctaButton: '今すぐ入手',
-      reviews: 'レビュー'
+      reviews: 'レビュー',
+      accessTo: 'アクセス'
     }
   };
   
@@ -1013,7 +1019,7 @@
   }
   
   function updateSellerName(sellerName, sellerAvatar) {
-    // Desktop
+    // Desktop only - Keep "Pay seller_name" style
     const paidToDesktop = $('msk-paid-to-desktop');
     const sellerValueDesktop = $('msk-seller-value-desktop');
     const sellerDesktop = $('msk-seller-desktop');
@@ -1034,24 +1040,46 @@
         sellerDesktop.style.display = 'block';
       }
     }
+  }
 
-    // Mobile expanded header
-    const expandedSeller = $('msk-expanded-seller');
-    const expandedAvatar = $('msk-expanded-avatar');
-    const expandedPaidTo = $('msk-expanded-paid-to');
-    const expandedSellerName = $('msk-expanded-seller-name');
+  // Update mobile expanded header with product name
+  function updateExpandedHeader(productName) {
+    const expandedProduct = $('msk-expanded-product');
+    const expandedAccessTo = $('msk-expanded-access-to');
+    const expandedProductName = $('msk-expanded-product-name');
 
-    if (expandedSeller && expandedPaidTo && expandedSellerName && sellerName) {
-      expandedPaidTo.textContent = t.pay + ' ';
-      expandedSellerName.textContent = sellerName;
+    if (expandedProduct && expandedAccessTo && expandedProductName && productName) {
+      expandedAccessTo.textContent = t.accessTo + ' ';
+      expandedProductName.textContent = productName;
+      expandedProduct.classList.add('msk-visible');
+    }
+  }
 
-      if (expandedAvatar && sellerAvatar) {
-        expandedAvatar.src = sellerAvatar;
-        expandedSeller.classList.add('msk-visible');
-      } else {
-        if (expandedAvatar) expandedAvatar.style.display = 'none';
-        expandedSeller.classList.add('msk-visible');
-      }
+  // Determine if text should be dark or light based on background color
+  function getContrastColor(hexColor) {
+    // Remove # if present
+    const hex = hexColor.replace('#', '');
+
+    // Parse RGB values
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+
+    // Calculate relative luminance (WCAG formula)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // Return white for dark backgrounds, black for light backgrounds
+    return luminance > 0.5 ? '#000000' : '#ffffff';
+  }
+
+  // Apply primary color to mobile CTA button
+  function applyPrimaryColor(primaryColor) {
+    const ctaButton = $('msk-compact-cta-button');
+
+    if (ctaButton && primaryColor) {
+      ctaButton.style.backgroundColor = primaryColor;
+      ctaButton.style.color = getContrastColor(primaryColor);
+      log.info('Applied primary color to CTA:', primaryColor);
     }
   }
 
@@ -1337,8 +1365,10 @@
     const priceBefore = detail.priceBefore || window.MySellKit?.priceBefore || '';
     const sellerName = detail.sellerName || window.MySellKit?.sellerName || '';
     const sellerAvatar = detail.sellerAvatar || window.MySellKit?.sellerAvatar || '';
+    const productName = detail.productName || window.MySellKit?.productName || '';
     const reviewsCount = detail.reviewsCount || window.MySellKit?.reviewsCount || 0;
     const reviewsAverage = detail.reviewsAverage || window.MySellKit?.reviewsAverage || 0;
+    const primaryColor = detail.primaryColor || window.MySellKit?.primaryColor || null;
 
     let priceHTML = `<span>${amount}</span>`;
     if (priceBefore) priceHTML += `<span class="msk-price-before">${priceBefore}</span>`;
@@ -1348,11 +1378,19 @@
     if (priceCompact) priceCompact.innerHTML = priceHTML;
     if (priceDesktop) priceDesktop.innerHTML = priceHTML;
 
-    // Update seller name with avatar and "Pay" prefix
+    // Update seller name with avatar and "Pay" prefix (desktop only)
     updateSellerName(sellerName, sellerAvatar);
+
+    // Update mobile expanded header with product name ("Access to [product]")
+    updateExpandedHeader(productName);
 
     // Update mobile compact left side (seller info or social proof)
     updateMobileCompactLeft(sellerName, sellerAvatar, reviewsCount, reviewsAverage);
+
+    // Apply primary color to CTA button if provided
+    if (primaryColor) {
+      applyPrimaryColor(primaryColor);
+    }
 
     updateButtonText(amount);
     

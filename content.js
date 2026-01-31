@@ -33,31 +33,24 @@
   // ========== HELPER FUNCTIONS ==========
   
   /**
-   * Smart HTML decoder - handles both base64 (Webflow) and direct HTML (Bubble)
+   * Decode base64 HTML content with UTF-8 support
    */
-  function smartDecodeHtml(content) {
+  function decodeBase64Html(content) {
     if (!content) return '';
-    
+
     var trimmed = content.trim();
-    
-    // If it looks like HTML, use it directly
-    if (trimmed.indexOf('<') === 0 || trimmed.indexOf('<') > -1) {
-      log.info('Detected direct HTML content');
-      return trimmed;
-    }
-    
-    // Otherwise, try base64 decoding
+
     try {
-      log.info('Attempting base64 decode');
+      log.info('Decoding base64 content');
       var binaryString = atob(trimmed);
       var bytes = new Uint8Array(binaryString.length);
       for (var i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
       return new TextDecoder('utf-8').decode(bytes);
     } catch (e) {
       log.warn('Base64 decode failed, trying simple atob');
-      try { 
-        return atob(trimmed); 
-      } catch (e2) { 
+      try {
+        return atob(trimmed);
+      } catch (e2) {
         log.warn('All decoding failed, returning original');
         return trimmed;
       }
@@ -99,6 +92,21 @@
     for (var i = 1; i <= 5; i++) stars += i <= r ? filled : empty;
     return stars;
   }
+
+  /**
+   * Apply primary color to highlighted text (mark elements)
+   */
+  function applyHighlightColor(container, primaryColor) {
+    if (!container || !primaryColor) return;
+
+    var markElements = container.querySelectorAll('mark');
+    if (markElements.length > 0) {
+      log.info('Applying highlight color to', markElements.length, 'mark elements');
+      markElements.forEach(function(mark) {
+        mark.style.backgroundColor = primaryColor;
+      });
+    }
+  }
   
   // ========== MAIN RENDER FUNCTION ==========
   window.MSKContent = {
@@ -127,10 +135,15 @@
       var whatsIncludedEl = document.getElementById('msk-whats-included');
       var reviewsEl = document.getElementById('msk-reviews');
       
-      // HTML Content - handles both base64 and direct HTML
+      // HTML Content - decode base64
       if (contentEl && isValidValue(config.htmlContent)) {
         log.info('Processing HTML content');
-        contentEl.innerHTML = smartDecodeHtml(config.htmlContent);
+        contentEl.innerHTML = decodeBase64Html(config.htmlContent);
+
+        // Apply primary color to highlighted text if provided
+        if (config.primaryColor) {
+          applyHighlightColor(contentEl, config.primaryColor);
+        }
       }
       
       // What's Included - uses translation automatically
