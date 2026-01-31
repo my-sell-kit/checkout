@@ -31,6 +31,11 @@
   }
 }
 
+/* FORCE MOBILE MODE */
+.msk-force-mobile .msk-content-wrapper {
+  padding: 28px 28px 16px 28px;
+}
+
 /* BADGES ROW (reviews + files) */
 .msk-badges-row {
   display: none;
@@ -156,6 +161,11 @@
   .msk-footer {
     padding: 28px 28px 16px 28px;
   }
+}
+
+/* FORCE MOBILE MODE */
+.msk-force-mobile .msk-footer {
+  padding: 28px 28px 16px 28px;
 }
 
 .msk-footer-inner {
@@ -519,6 +529,11 @@
   }
 }
 
+/* FORCE MOBILE MODE */
+.msk-force-mobile .msk-reviews-inner {
+  padding: 0 28px;
+}
+
 .msk-reviews-header {
   display: flex;
   align-items: center;
@@ -645,6 +660,11 @@
   .msk-review-content {
     padding: 20px 28px;
   }
+}
+
+/* FORCE MOBILE MODE */
+.msk-force-mobile .msk-review-content {
+  padding: 20px 28px;
 }
 
 .msk-review-header {
