@@ -21,19 +21,19 @@
   max-width: 740px;
   margin: 0 auto;
   width: 100%;
-  padding: 48px 48px 32px 48px;
+  padding: 48px 48px 44px 48px;
   box-sizing: border-box;
 }
 
 @media (max-width: 991px) {
   .msk-content-wrapper {
-    padding: 28px 28px 16px 28px;
+    padding: 28px 28px 28px 28px;
   }
 }
 
 /* FORCE MOBILE MODE */
 .msk-force-mobile .msk-content-wrapper {
-  padding: 28px 28px 16px 28px;
+  padding: 28px 28px 28px 28px;
 }
 
 /* BADGES ROW (reviews + files) */
