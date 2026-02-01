@@ -24,9 +24,13 @@
 
 @media (min-width: 992px) {
   .msk-payment-embed {
-    margin: 48px auto;
+    margin: 0 auto;
+    padding: 48px 0;
     width: calc(100% - 96px);
     max-width: 450px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -46,6 +50,14 @@
 
 .msk-payment-container {
   max-width: 100%;
+}
+
+@media (min-width: 992px) {
+  .msk-payment-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 991px) {
@@ -329,7 +341,9 @@
 
 /* ========== DESKTOP ========== */
 .msk-desktop {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 @media (max-width: 991px) {
@@ -589,6 +603,14 @@
   justify-content: center;
   gap: 6px;
   margin-top: 48px;
+}
+
+/* Desktop: push footer to bottom with minimum gap */
+@media (min-width: 992px) {
+  .msk-checkout-footer:not(.msk-compact-footer) {
+    margin-top: auto;
+    padding-top: 48px;
+  }
 }
 
 .msk-checkout-footer-text {
