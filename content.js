@@ -357,7 +357,14 @@
       if (reviewsEl && reviewsData.length > 0) {
         log.info('Building Reviews with', reviewsData.length, 'reviews');
 
-        // Store original reviews for sorting
+        // Sort reviews by date (most recent first) for initial display
+        reviewsData.sort(function(a, b) {
+          var dateA = a.date ? new Date(a.date).getTime() : 0;
+          var dateB = b.date ? new Date(b.date).getTime() : 0;
+          return dateB - dateA;
+        });
+
+        // Store sorted reviews for re-sorting
         var originalReviews = reviewsData.slice();
 
 
@@ -441,7 +448,12 @@
                   sortedReviews.sort(function(a, b) { return a.rating - b.rating; });
                   sortLabel.textContent = t.lowestRated;
                 } else {
-                  // Most recent (original order, assuming reviews are already sorted by date)
+                  // Most recent - sort by date descending (newest first)
+                  sortedReviews.sort(function(a, b) {
+                    var dateA = a.date ? new Date(a.date).getTime() : 0;
+                    var dateB = b.date ? new Date(b.date).getTime() : 0;
+                    return dateB - dateA;
+                  });
                   sortLabel.textContent = t.mostRecent;
                 }
 
