@@ -792,6 +792,7 @@
     en: {
       orPayWithCard: 'Or pay with card',
       email: 'Email',
+      emailPlaceholder: 'your@email.com',
       payNow: 'Pay',
       processing: 'Processing...',
       emailRequired: 'Enter your email to receive your files',
@@ -810,6 +811,7 @@
     fr: {
       orPayWithCard: 'Ou payer par carte',
       email: 'Email',
+      emailPlaceholder: 'votre@email.com',
       payNow: 'Payer',
       processing: 'Traitement...',
       emailRequired: 'Entrez votre email pour recevoir vos fichiers',
@@ -828,6 +830,7 @@
     es: {
       orPayWithCard: 'O pagar con tarjeta',
       email: 'Email',
+      emailPlaceholder: 'tu@email.com',
       payNow: 'Pagar',
       processing: 'Procesando...',
       emailRequired: 'Ingresa tu email para recibir tus archivos',
@@ -846,6 +849,7 @@
     de: {
       orPayWithCard: 'Oder mit Karte zahlen',
       email: 'E-Mail',
+      emailPlaceholder: 'deine@email.de',
       payNow: 'Zahlen',
       processing: 'Verarbeitung...',
       emailRequired: 'E-Mail eingeben um Dateien zu erhalten',
@@ -864,6 +868,7 @@
     it: {
       orPayWithCard: 'Oppure paga con carta',
       email: 'Email',
+      emailPlaceholder: 'tua@email.com',
       payNow: 'Paga',
       processing: 'Elaborazione...',
       emailRequired: 'Inserisci email per ricevere i file',
@@ -882,6 +887,7 @@
     pt: {
       orPayWithCard: 'Ou pagar com cartão',
       email: 'Email',
+      emailPlaceholder: 'seu@email.com',
       payNow: 'Pagar',
       processing: 'Processando...',
       emailRequired: 'Digite seu email para receber os arquivos',
@@ -900,6 +906,7 @@
     nl: {
       orPayWithCard: 'Of betaal met kaart',
       email: 'E-mail',
+      emailPlaceholder: 'jouw@email.nl',
       payNow: 'Betalen',
       processing: 'Verwerken...',
       emailRequired: 'Voer e-mail in om bestanden te ontvangen',
@@ -918,6 +925,7 @@
     ja: {
       orPayWithCard: 'またはカードで支払う',
       email: 'メール',
+      emailPlaceholder: 'your@email.com',
       payNow: '支払う',
       processing: '処理中...',
       emailRequired: 'ファイル受取用メールを入力',
@@ -1017,6 +1025,13 @@
 
     const emailLabelExpanded = $('msk-email-label-expanded');
     if (emailLabelExpanded) emailLabelExpanded.textContent = t.email;
+
+    // Email placeholder translations
+    const emailInputDesktop = $('msk-email-desktop');
+    if (emailInputDesktop) emailInputDesktop.placeholder = t.emailPlaceholder;
+
+    const emailInputExpanded = $('msk-email-expanded');
+    if (emailInputExpanded) emailInputExpanded.placeholder = t.emailPlaceholder;
 
     const ctaButton = $('msk-compact-cta-text');
     if (ctaButton) ctaButton.textContent = t.ctaButton;
@@ -1555,6 +1570,9 @@
   // ========== MOBILE PADDING MANAGEMENT ==========
   // Calculates the height of the checkout block and dispatches an event
   // so the parent application can apply padding to prevent content overlap
+  // Extra 12px padding is added to provide breathing room below the content
+  const EXTRA_BOTTOM_PADDING = 12;
+
   function updateMobileContentPadding() {
     if (!isMobile) {
       // On desktop, dispatch event with 0 padding
@@ -1568,7 +1586,8 @@
     if (!container) return;
 
     // Always get the full height of the checkout container (works for both compact and expanded)
-    const checkoutHeight = container.offsetHeight;
+    // Add extra padding for breathing room below the content
+    const checkoutHeight = container.offsetHeight + EXTRA_BOTTOM_PADDING;
 
     log.info('Mobile checkout height:', checkoutHeight, 'isExpanded:', isExpanded);
 
